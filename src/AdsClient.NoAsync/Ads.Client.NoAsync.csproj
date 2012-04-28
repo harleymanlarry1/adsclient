@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C2944A5B-BFBB-4996-90AB-A44DB82652E2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ads.Client</RootNamespace>
+    <AssemblyName>AdsClient.NoAsync</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NO_ASYNC</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE;NO_ASYNC</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AdsClient\AdsClient.cs">
+      <Link>AdsClient.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Ams.cs">
+      <Link>Ams.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\AmsSocket.cs">
+      <Link>AmsSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsAddDeviceNotificationCommandResponse.cs">
+      <Link>CommandResponse\AdsAddDeviceNotificationCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsCommandResponse.cs">
+      <Link>CommandResponse\AdsCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsDeleteDeviceNotificationCommandResponse.cs">
+      <Link>CommandResponse\AdsDeleteDeviceNotificationCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsReadCommandResponse.cs">
+      <Link>CommandResponse\AdsReadCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsReadDeviceInfoCommandResponse.cs">
+      <Link>CommandResponse\AdsReadDeviceInfoCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsReadStateCommandResponse.cs">
+      <Link>CommandResponse\AdsReadStateCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsWriteCommandResponse.cs">
+      <Link>CommandResponse\AdsWriteCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsWriteReadCommandResponse.cs">
+      <Link>CommandResponse\AdsWriteReadCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsAddDeviceNotificationCommand.cs">
+      <Link>Commands\AdsAddDeviceNotificationCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsCommand.cs">
+      <Link>Commands\AdsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsDeleteDeviceNotificationCommand.cs">
+      <Link>Commands\AdsDeleteDeviceNotificationCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsReadCommand.cs">
+      <Link>Commands\AdsReadCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsReadDeviceInfoCommand.cs">
+      <Link>Commands\AdsReadDeviceInfoCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsReadStateCommand.cs">
+      <Link>Commands\AdsReadStateCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsWriteCommand.cs">
+      <Link>Commands\AdsWriteCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsWriteReadCommand.cs">
+      <Link>Commands\AdsWriteReadCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsCommandId.cs">
+      <Link>Common\AdsCommandId.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsDeviceInfo.cs">
+      <Link>Common\AdsDeviceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsException.cs">
+      <Link>Common\AdsException.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsNotification.cs">
+      <Link>Common\AdsNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsNotificationArgs.cs">
+      <Link>Common\AdsNotificationArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsState.cs">
+      <Link>Common\AdsState.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsSymbolInfo.cs">
+      <Link>Common\AdsSymbolInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsTransmissionMode.cs">
+      <Link>Common\AdsTransmissionMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AmsNetId.cs">
+      <Link>Common\AmsNetId.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AmsSocketResponseArgs.cs">
+      <Link>Common\AmsSocketResponseArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\Date.cs">
+      <Link>Common\Date.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\Time.cs">
+      <Link>Common\Time.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\AmsHeaderHelper.cs">
+      <Link>Helpers\AmsHeaderHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\AmsSocketHelper.cs">
+      <Link>Helpers\AmsSocketHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\ByteArrayHelper.cs">
+      <Link>Helpers\ByteArrayHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\Extensions.cs">
+      <Link>Helpers\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\GenericHelper.cs">
+      <Link>Helpers\GenericHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\IAmsSocket.cs">
+      <Link>IAmsSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Properties\AssemblyVersionInfo.cs">
+      <Link>Properties\AssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Special\AdsSpecial.cs">
+      <Link>Special\AdsSpecial.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

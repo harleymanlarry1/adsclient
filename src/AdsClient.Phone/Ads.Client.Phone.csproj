@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{83E3E64C-0956-4D85-B289-9A7F4E72D1A9}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AdsClient.Phone</RootNamespace>
+    <AssemblyName>AdsClient.Phone</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AsyncCtpLibrary_Phone">
+      <HintPath>..\..\lib\AsyncCtpLibrary_Phone.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="mscorlib.extensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AdsClient\AdsClient.cs">
+      <Link>AdsClient.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Ams.cs">
+      <Link>Ams.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\AmsSocket.cs">
+      <Link>AmsSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsAddDeviceNotificationCommandResponse.cs">
+      <Link>CommandResponse\AdsAddDeviceNotificationCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsCommandResponse.cs">
+      <Link>CommandResponse\AdsCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsDeleteDeviceNotificationCommandResponse.cs">
+      <Link>CommandResponse\AdsDeleteDeviceNotificationCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsReadCommandResponse.cs">
+      <Link>CommandResponse\AdsReadCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsReadDeviceInfoCommandResponse.cs">
+      <Link>CommandResponse\AdsReadDeviceInfoCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsReadStateCommandResponse.cs">
+      <Link>CommandResponse\AdsReadStateCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsWriteCommandResponse.cs">
+      <Link>CommandResponse\AdsWriteCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\CommandResponse\AdsWriteReadCommandResponse.cs">
+      <Link>CommandResponse\AdsWriteReadCommandResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsAddDeviceNotificationCommand.cs">
+      <Link>Commands\AdsAddDeviceNotificationCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsCommand.cs">
+      <Link>Commands\AdsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsDeleteDeviceNotificationCommand.cs">
+      <Link>Commands\AdsDeleteDeviceNotificationCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsReadCommand.cs">
+      <Link>Commands\AdsReadCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsReadDeviceInfoCommand.cs">
+      <Link>Commands\AdsReadDeviceInfoCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsReadStateCommand.cs">
+      <Link>Commands\AdsReadStateCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsWriteCommand.cs">
+      <Link>Commands\AdsWriteCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Commands\AdsWriteReadCommand.cs">
+      <Link>Commands\AdsWriteReadCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsCommandId.cs">
+      <Link>Common\AdsCommandId.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsDeviceInfo.cs">
+      <Link>Common\AdsDeviceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsException.cs">
+      <Link>Common\AdsException.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsNotification.cs">
+      <Link>Common\AdsNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsNotificationArgs.cs">
+      <Link>Common\AdsNotificationArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsState.cs">
+      <Link>Common\AdsState.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsSymbolInfo.cs">
+      <Link>Common\AdsSymbolInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AdsTransmissionMode.cs">
+      <Link>Common\AdsTransmissionMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AmsNetId.cs">
+      <Link>Common\AmsNetId.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\AmsSocketResponseArgs.cs">
+      <Link>Common\AmsSocketResponseArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\Date.cs">
+      <Link>Common\Date.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\Time.cs">
+      <Link>Common\Time.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\AmsHeaderHelper.cs">
+      <Link>Helpers\AmsHeaderHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\AmsSocketHelper.cs">
+      <Link>Helpers\AmsSocketHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\ByteArrayHelper.cs">
+      <Link>Helpers\ByteArrayHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\Extensions.cs">
+      <Link>Helpers\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\GenericHelper.cs">
+      <Link>Helpers\GenericHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\IAmsSocket.cs">
+      <Link>IAmsSocket.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Properties\AssemblyVersionInfo.cs">
+      <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Special\AdsSpecial.cs">
+      <Link>Special\AdsSpecial.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

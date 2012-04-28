@@ -43,15 +43,17 @@ Mono for android:
 Remember to set internet permissions in the manifest.
 You must also configure a route for your android device.
 
-### External documentation
+External documentation
+----------------------
 
 [Specification for the ADS/AMS protocol](http://infosys.beckhoff.com/english.php?content=../content/1033/TcAdsAmsSpec/HTML/TcAdsAmsSpec_Intro.htm&id=)
 
 [Index-Group/Offset specification](http://infosys.beckhoff.com/content/1033/tcadsdeviceplc/html/tcadsdeviceplc_intro.htm?id=11742)
 
-### Examples
+Examples
+--------
 
-#### Simple hello machine
+### Simple hello machine
 
 ```C#
 using (AdsClient client = new AdsClient(
@@ -82,7 +84,7 @@ This happens because I'm closing the socket while it's listening for ads packets
 These exceptions are handled in the library and don't cause any problems.
 (If someone knows a better way, please let me know)
 
-#### Read/Write a variable by name
+### Read/Write a variable by name
 
 ```C#
 using (AdsClient client = new AdsClient(
@@ -114,7 +116,7 @@ using (AdsClient client = new AdsClient(
 
 You can also use the AdsCommands directly if you need to write directly with IndexGroup/IndexOffset
 
-#### Working with notifications
+### Working with notifications
 
 ```C#
 using (AdsClient client = new AdsClient(
@@ -133,7 +135,7 @@ using (AdsClient client = new AdsClient(
 }
 ```
 
-#### Simple async example with most functions
+### Simple async example with most functions
 
 Here is an async example.
 The non async functions work the same. (functions without async at the end) 
@@ -209,7 +211,7 @@ namespace AdsTest
 }
 ```
 
-#### Using commands directly
+### Using commands directly
 
 ```C#
 AdsReadStateCommand stateCmd = new AdsReadStateCommand();
@@ -217,11 +219,11 @@ string state = stateCmd.Run(client.Ams).AdsState.ToString();
 Console.WriteLine("State: " + state);
 ```
 
-#### Special functions
+### Special functions
 
 These functions aren't documented by Beckhoff:
 
-##### Add route on target
+#### Add route on target
 
 This code may not work because it is not documented as far as I know. Use at own  risk.
 The default username is 'Administrator' with an empty password.
@@ -246,7 +248,7 @@ AdsSpecial.AddRoute(
     address: "laptop1");
 ```
 
-##### Get target description
+#### Get target description
 
 ```C#
 using (AdsClient client = new AdsClient(

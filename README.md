@@ -1,6 +1,3 @@
-AdsClient
-=========
-
 This is the client implementation of the [Twincat](http://www.beckhoff.com/english.asp?twincat/default.htm) Ads protocol from [Beckhoff](http://http://www.beckhoff.com/).
 (I'm not affiliated with Beckhoff)
 
@@ -18,9 +15,10 @@ The NoAsync library doesn't require this dll and can be used in mono 2.10.
 
 
 Getting started
----------------
+===============
 
-### Ads Route
+Ads Route
+---------
 
 First you have to give your device/machine the permission to communicate with the Twincat Ads server by adding a route.
 
@@ -32,11 +30,13 @@ There is also an experimental function AdsClient.AddRoute() for doing this.
 
 *If the library is not working, an incorrect/missing route may be the problem!.*
 
-### Installation
+Installation
+------------
 You only need this library.
 Twincat is _not_ needed. 
 
-### Mono
+Mono
+----
 The version without the async functions works in Mono 2.10
 
 Mono for android:
@@ -51,9 +51,9 @@ External documentation
 [Index-Group/Offset specification](http://infosys.beckhoff.com/content/1033/tcadsdeviceplc/html/tcadsdeviceplc_intro.htm?id=11742)
 
 Examples
---------
+========
 
-### Simple hello machine
+## Simple hello machine
 
 ```C#
 using (AdsClient client = new AdsClient(
@@ -84,7 +84,7 @@ This happens because I'm closing the socket while it's listening for ads packets
 These exceptions are handled in the library and don't cause any problems.
 (If someone knows a better way, please let me know)
 
-### Read/Write a variable by name
+## Read/Write a variable by name
 
 ```C#
 using (AdsClient client = new AdsClient(
@@ -116,7 +116,7 @@ using (AdsClient client = new AdsClient(
 
 You can also use the AdsCommands directly if you need to write directly with IndexGroup/IndexOffset
 
-### Working with notifications
+## Working with notifications
 
 ```C#
 using (AdsClient client = new AdsClient(
@@ -135,7 +135,7 @@ using (AdsClient client = new AdsClient(
 }
 ```
 
-### Simple async example with most functions
+## Simple async example with most functions
 
 Here is an async example.
 The non async functions work the same. (functions without async at the end) 
@@ -211,7 +211,7 @@ namespace AdsTest
 }
 ```
 
-### Using commands directly
+## Using commands directly
 
 ```C#
 AdsReadStateCommand stateCmd = new AdsReadStateCommand();
@@ -219,11 +219,11 @@ string state = stateCmd.Run(client.Ams).AdsState.ToString();
 Console.WriteLine("State: " + state);
 ```
 
-### Special functions
+## Special functions
 
 These functions aren't documented by Beckhoff:
 
-#### Add route on target
+### Add route on target
 
 This code may not work because it is not documented as far as I know. Use at own  risk.
 The default username is 'Administrator' with an empty password.
@@ -248,7 +248,7 @@ AdsSpecial.AddRoute(
     address: "laptop1");
 ```
 
-#### Get target description
+### Get target description
 
 ```C#
 using (AdsClient client = new AdsClient(

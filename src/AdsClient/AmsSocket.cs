@@ -56,8 +56,6 @@ namespace Ads.Client
 
         public bool Connected { get { return socket.Connected; } }
 
-        private int maxPacketSize = 1514;
-
         private void Listen()
         {
             if ((socket != null) && (socket.Connected))
@@ -215,6 +213,8 @@ namespace Ads.Client
 
         #region Blocking methods
         #if !SILVERLIGHT
+
+        private int maxPacketSize = 1514;
 
         public void ConnectAndListen()
         {

@@ -9,7 +9,8 @@
     <id>AdsClient</id>
     <title />
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Ads .Net Client Library</description>
+    <description>A client implementation of the Beckhoff Twincat ADS protocol.</description>
+    <summary>A client implementation of the Beckhoff Twincat ADS protocol.</summary>
     <releaseNotes />
     <copyright>Roeland Moors</copyright>
     <tags>Ads</tags>

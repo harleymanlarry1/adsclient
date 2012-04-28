@@ -63,8 +63,23 @@ namespace Ads.Client
             ams.AmsPortTarget = amsPortTarget;
         }
 
+        /// <summary>
+        /// AdsClient Constructor
+        /// </summary>
+        /// <param name="settings">The connection settings</param>
+        public AdsClient(IAdsConnectionSettings settings)
+        {
+            ams = new Ams(settings.IpTarget);
+            ams.AmsNetIdSource = new AmsNetId(settings.AmsNetIdSource);
+            ams.AmsNetIdTarget = new AmsNetId(settings.AmsNetIdTarget);
+            ams.AmsPortTarget = settings.AmsPortTarget;
+            this.Name = settings.Name;
+        }
+
         private Ams ams;
         public Ams Ams { get { return ams; } }
+
+        private List<uint> activeSymhandles = new List<uint>();
 
         /// <summary>
         /// Special functions. (functionality not documented by Beckhoff)
@@ -91,6 +106,8 @@ namespace Ads.Client
             get { return defaultStringLenght; }
             set { defaultStringLenght = value; }
         }
+ 
+        public string Name { get; set; }
         
         /// <summary>
         /// This event is called when a subscribed notification is raised
@@ -104,7 +121,11 @@ namespace Ads.Client
         protected virtual void Dispose(bool managed)
         {
             #if !SILVERLIGHT
-            if (ams.ConnectedAsync == false) DeleteActiveNotifications();
+            if (ams.ConnectedAsync == false) 
+            {
+                DeleteActiveNotifications();
+                ReleaseActiveSymhandles();
+            }
             #endif
 
             if (ams != null) ams.Dispose();
@@ -123,11 +144,22 @@ namespace Ads.Client
         /// </summary>
         /// <param name="varName">A twincat variable like ".XXX"</param>
         /// <returns>The handle</returns>
-        public async Task<uint> GetSymhandleByNameAsync(string varName)
+        public async Task<uint> GetSymhandleByNameAsync(string varName) 
         {
             AdsWriteReadCommand adsCommand = new AdsWriteReadCommand(0x0000F003, 0x00000000, varName.ToAdsBytes(), 4);
             var result = await adsCommand.RunAsync(this.ams);
-            return BitConverter.ToUInt32(result.Data, 0);
+            var handle = BitConverter.ToUInt32(result.Data, 0);
+            activeSymhandles.Add(handle);
+            return handle;
+        }
+
+        public async Task<IAdsSymhandle> GetSymhandleObjectByNameAsync(string varName)
+        {
+            var symhandle = new AdsSymhandle();
+            symhandle.Symhandle = await GetSymhandleByNameAsync(varName);
+            symhandle.VarName = varName;
+            symhandle.ConnectionName = Name;
+            return symhandle;
         }
 
         /// <summary>
@@ -136,8 +168,14 @@ namespace Ads.Client
         /// <param name="symhandle">The handle returned by GetSymhandleByName</param>
         public async Task ReleaseSymhandleAsync(uint symhandle)
         {
+            activeSymhandles.Remove(symhandle);
             AdsWriteCommand adsCommand = new AdsWriteCommand(0x0000F006, 0x00000000, BitConverter.GetBytes(symhandle));
             var result = await adsCommand.RunAsync(this.ams);
+        }
+
+        public async Task ReleaseSymhandleAsync(IAdsSymhandle adsSymhandle)
+        {
+            await ReleaseSymhandleAsync(adsSymhandle.Symhandle);
         }
 
         /// <summary>
@@ -148,6 +186,25 @@ namespace Ads.Client
         public async Task<byte[]> ReadBytesAsync(uint varHandle, uint readLength)
         {
             AdsReadCommand adsCommand = new AdsReadCommand(0x0000F005, varHandle, readLength);
+            var result = await adsCommand.RunAsync(this.ams);
+            return result.Data;
+        }
+
+        public async Task<byte[]> ReadBytesAsync(IAdsSymhandle adsSymhandle, uint readLength)
+        {
+            return await ReadBytesAsync(adsSymhandle.Symhandle, readLength);
+        }
+
+        public async Task<byte[]> ReadBytesI_Async(uint offset, uint readLength)
+        {
+            AdsReadCommand adsCommand = new AdsReadCommand(0x0000F020, offset, readLength);
+            var result = await adsCommand.RunAsync(this.ams);
+            return result.Data;
+        }
+
+        public async Task<byte[]> ReadBytesQ_Async(uint offset, uint readLength)
+        {
+            AdsReadCommand adsCommand = new AdsReadCommand(0x0000F030, offset, readLength);
             var result = await adsCommand.RunAsync(this.ams);
             return result.Data;
         }
@@ -164,6 +221,11 @@ namespace Ads.Client
             return GenericHelper.GetResultFromBytes<T>(value);
         }
 
+        public async Task<T> ReadAsync<T>(IAdsSymhandle adsSymhandle) where T : IConvertible
+        {
+            return await ReadAsync<T>(adsSymhandle.Symhandle);
+        }
+
         /// <summary>
         /// Add a noticiation when a variable changes or cyclic after a defined time in ms
         /// </summary>
@@ -176,6 +238,11 @@ namespace Ads.Client
         public async Task<uint> AddNotificationAsync(uint varHandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
             return await AddNotificationAsync(varHandle, length, transmissionMode, cycleTime, userData, typeof(byte[]));
+        }
+
+        public async Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
+        {
+            return await AddNotificationAsync(adsSymhandle.Symhandle, length, transmissionMode, cycleTime, userData);
         }
 
         /// <summary>
@@ -199,6 +266,11 @@ namespace Ads.Client
             return result.NotificationHandle; ;
         }
 
+        public async Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData, Type typeOfValue)
+        {
+            return await AddNotificationAsync(adsSymhandle.Symhandle, length, transmissionMode, cycleTime, userData, typeOfValue);
+        }
+
         /// <summary>
         /// Add a noticiation when a variable changes or cyclic after a defined time in ms
         /// </summary>
@@ -212,6 +284,11 @@ namespace Ads.Client
         {
             uint length = GenericHelper.GetByteLengthFromType<T>(DefaultStringLength);
             return await AddNotificationAsync(varHandle, length, transmissionMode, cycleTime, userData, typeof(T));
+        }
+
+        public async Task<uint> AddNotificationAsync<T>(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) where T : IConvertible
+        {
+            return await AddNotificationAsync<T>(adsSymhandle.Symhandle, transmissionMode, cycleTime, userData);
         }
 
         /// <summary>
@@ -236,6 +313,11 @@ namespace Ads.Client
             var result = await adsCommand.RunAsync(this.ams);
         }
 
+        public async Task WriteBytesAsync(IAdsSymhandle adsSymhandle, IEnumerable<byte> varValue)
+        {
+            await WriteBytesAsync(adsSymhandle.Symhandle, varValue);
+        }
+
         /// <summary>
         /// Write the value to the handle returned by GetSymhandleByNameAsync
         /// </summary>
@@ -246,6 +328,11 @@ namespace Ads.Client
         {
             IEnumerable<byte> varValueBytes = GenericHelper.GetBytesFromType<T>(varValue);
             await this.WriteBytesAsync(varHandle, varValueBytes);
+        }
+
+        public async Task WriteAsync<T>(IAdsSymhandle adsSymhandle, T varValue) where T : IConvertible
+        {
+            await WriteAsync<T>(adsSymhandle.Symhandle, varValue);
         }
 
         /// <summary>
@@ -278,6 +365,14 @@ namespace Ads.Client
                 await DeleteNotificationAsync(ams.NotificationRequests[0].NotificationHandle);
             }
         }
+
+        public async Task ReleaseActiveSymhandlesAsync()
+        {
+            while (activeSymhandles.Count > 0)
+            {
+                await ReleaseSymhandleAsync(activeSymhandles[0]);
+            }
+        }
 #endif
         #endregion
 
@@ -293,7 +388,23 @@ namespace Ads.Client
         {
             AdsWriteReadCommand adsCommand = new AdsWriteReadCommand(0x0000F003, 0x00000000, varName.ToAdsBytes(), 4);
             var result = adsCommand.Run(this.ams);
-            return BitConverter.ToUInt32(result.Data, 0);
+            var handle = BitConverter.ToUInt32(result.Data, 0);
+            activeSymhandles.Add(handle);
+            return handle;
+        }
+
+        /// <summary>
+        /// Get a handle object from a variable name
+        /// </summary>
+        /// <param name="varName">A twincat variable like ".XXX"</param>
+        /// <returns>An AdsSymhandle object</returns>
+        public IAdsSymhandle GetSymhandleObjectByName(string varName)
+        {
+            var symhandle = new AdsSymhandle();
+            symhandle.Symhandle = GetSymhandleByName(varName);
+            symhandle.VarName = varName;
+            symhandle.ConnectionName = Name;
+            return symhandle;
         }
 
         /// <summary>
@@ -302,8 +413,14 @@ namespace Ads.Client
         /// <param name="symhandle">The handle returned by GetSymhandleByName</param>
         public void ReleaseSymhandle(uint symhandle)
         {
+            activeSymhandles.Remove(symhandle);
             AdsWriteCommand adsCommand = new AdsWriteCommand(0x0000F006, 0x00000000, BitConverter.GetBytes(symhandle));
             var result = adsCommand.Run(this.ams);
+        }
+
+        public void ReleaseSymhandle(IAdsSymhandle adsSymhandle)
+        {
+            ReleaseSymhandle(adsSymhandle.Symhandle);
         }
 
         /// <summary>
@@ -316,6 +433,11 @@ namespace Ads.Client
             AdsReadCommand adsCommand = new AdsReadCommand(0x0000F005, varHandle, readLength);
             var result = adsCommand.Run(this.ams);
             return result.Data;
+        }
+
+        public byte[] ReadBytes(IAdsSymhandle adsSymhandle, uint readLength)
+        {
+            return ReadBytes(adsSymhandle.Symhandle, readLength);
         }
 
         public byte[] ReadBytesI(uint offset, uint readLength)
@@ -345,6 +467,11 @@ namespace Ads.Client
             return GenericHelper.GetResultFromBytes<T>(value);
         }
 
+        public T Read<T>(IAdsSymhandle adsSymhandle) where T : IConvertible
+        {
+            return Read<T>(adsSymhandle.Symhandle);
+        }
+
         /// <summary>
         /// Add a noticiation when a variable changes or cyclic after a defined time in ms
         /// </summary>
@@ -357,6 +484,11 @@ namespace Ads.Client
         public uint AddNotification(uint varHandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
             return AddNotification(varHandle, length, transmissionMode, cycleTime, userData, typeof(byte[]));
+        }
+
+        public uint AddNotification(IAdsSymhandle adsSymhandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
+        {
+            return AddNotification(adsSymhandle.Symhandle, length, transmissionMode, cycleTime, userData);
         }
 
         /// <summary>
@@ -380,6 +512,11 @@ namespace Ads.Client
             return result.NotificationHandle;
         }
 
+        public uint AddNotification(IAdsSymhandle adsSymhandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData, Type TypeOfValue)
+        {
+            return AddNotification(adsSymhandle.Symhandle, length, transmissionMode, cycleTime, userData, TypeOfValue);
+        }
+
         /// <summary>
         /// Add a noticiation when a variable changes or cyclic after a defined time in ms
         /// </summary>
@@ -393,6 +530,11 @@ namespace Ads.Client
         {
             uint length = GenericHelper.GetByteLengthFromType<T>(DefaultStringLength);
             return AddNotification(varHandle, length, transmissionMode, cycleTime, userData, typeof(T));
+        }
+
+        public uint AddNotification<T>(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) where T : IConvertible
+        {
+            return AddNotification<T>(adsSymhandle.Symhandle, transmissionMode, cycleTime, userData);
         }
 
         /// <summary>
@@ -417,6 +559,11 @@ namespace Ads.Client
             var result = adsCommand.Run(this.ams);
         }
 
+        public void WriteBytes(IAdsSymhandle adsSymhandle, IEnumerable<byte> varValue)
+        {
+            WriteBytes(adsSymhandle.Symhandle, varValue);
+        }
+
         /// <summary>
         /// Write the value to the handle returned by GetSymhandleByName
         /// </summary>
@@ -427,6 +574,11 @@ namespace Ads.Client
         {
             IEnumerable<byte> varValueBytes = GenericHelper.GetBytesFromType<T>(varValue);
             this.WriteBytes(varHandle, varValueBytes);
+        }
+
+        public void Write<T>(IAdsSymhandle adsSymhandle, T varValue) where T : IConvertible
+        {
+            Write<T>(adsSymhandle, varValue);
         }
 
         /// <summary>
@@ -459,6 +611,14 @@ namespace Ads.Client
                 {
                     DeleteNotification(ams.NotificationRequests[0].NotificationHandle);
                 }
+            }
+        }
+
+        public void ReleaseActiveSymhandles()
+        {
+            while (activeSymhandles.Count > 0)
+            {
+                ReleaseSymhandle(activeSymhandles[0]);
             }
         }
 

@@ -10,24 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ads.Client.NoAsync", "AdsClient.NoAsync\Ads.Client.NoAsync.csproj", "{C2944A5B-BFBB-4996-90AB-A44DB82652E2}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs35
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = AdsClient\\Ads.Client.csproj
-		SccProjectName1 = AdsClient
-		SccLocalPath1 = AdsClient
-		SccProjectUniqueName2 = AdsClient.Test\\Ads.Client.Test.csproj
-		SccProjectName2 = AdsClient.Test
-		SccLocalPath2 = AdsClient.Test
-		SccProjectUniqueName3 = AdsClient.Phone\\Ads.Client.Phone.csproj
-		SccProjectName3 = AdsClient.Phone
-		SccLocalPath3 = AdsClient.Phone
-		SccProjectUniqueName4 = AdsClient.NoAsync\\Ads.Client.NoAsync.csproj
-		SccProjectName4 = AdsClient.NoAsync
-		SccLocalPath4 = AdsClient.NoAsync
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = AdsClient.vsmdi
 	EndGlobalSection

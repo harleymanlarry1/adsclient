@@ -52,9 +52,12 @@
   <ItemGroup>
     <Compile Include="AdsClient.cs" />
     <Compile Include="AmsSocket.cs" />
+    <Compile Include="Common\AdsConnectionSettings.cs" />
+    <Compile Include="Common\IAdsConnectionSettings.cs" />
+    <Compile Include="Common\IAdsSymhandle.cs" />
     <Compile Include="Properties\AssemblyVersionInfo.cs" />
     <Compile Include="Common\AdsNotificationArgs.cs" />
-    <Compile Include="Common\AdsSymbolInfo.cs" />
+    <Compile Include="Common\AdsSymhandle.cs" />
     <Compile Include="Common\Date.cs" />
     <Compile Include="Common\AmsSocketResponseArgs.cs" />
     <Compile Include="Common\Time.cs" />

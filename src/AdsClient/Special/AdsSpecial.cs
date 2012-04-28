@@ -98,7 +98,7 @@ namespace Ads.Client.Special
             return routes;
         }
 
-        public IList<AdsSymbolInfo> GetSymbols()
+        public IList<IAdsSymhandle> GetSymbols()
         {
             AdsReadCommand adsCommand = new AdsReadCommand(0x0000f00f, 0x000000, 0x30);
             var result = adsCommand.Run(this.ams);
@@ -114,7 +114,7 @@ namespace Ads.Client.Special
 
         #if !NO_ASYNC
 
-        public async Task<IList<AdsSymbolInfo>> GetSymbolsAsync()
+        public async Task<IList<IAdsSymhandle>> GetSymbolsAsync()
         {
             AdsReadCommand adsCommand = new AdsReadCommand(0x0000f00f, 0x000000, 0x30);
             var result = await adsCommand.RunAsync(ams);
@@ -130,22 +130,23 @@ namespace Ads.Client.Special
 
         #endif
 
-
-        private IList<AdsSymbolInfo> GetSymbolsFromBytes(byte[] data)
+        private IList<IAdsSymhandle> GetSymbolsFromBytes(byte[] data)
         {
             int pos = 0;
-            var symbols = new List<AdsSymbolInfo>();
+            var symbols = new List<IAdsSymhandle>();
 
             while (pos < data.Length)
             {
-                AdsSymbolInfo symbol = new AdsSymbolInfo();
+                IAdsSymhandle symbol = new AdsSymhandle();
 
                 uint readLength = BitConverter.ToUInt32(data, pos);
 
                 symbol.IndexGroup = BitConverter.ToUInt32(data, pos + 4);
                 symbol.IndexOffset = BitConverter.ToUInt32(data, pos + 8);
                 //symbol.Size = BitConverter.ToUInt32(result.Data, pos + 12);
-                //symbol.Type = BitConverter.ToUInt32(result.Data, pos + 16);  ADST_...
+                //symbol.Type = BitConverter.ToUInt32(result.Data, pos + 16);  ADST_... type constants
+
+                //BitConverter.ToUInt32(result.Data, pos + 20); ???
 
                 UInt16 nameLength = BitConverter.ToUInt16(data, pos + 24);
                 nameLength++;
@@ -157,7 +158,7 @@ namespace Ads.Client.Special
                 byte[] nameBytes = new byte[nameLength];
                 Array.Copy(data, pos + 30, nameBytes, 0, nameLength);
                 pos += 30 + nameLength;
-                symbol.Name = ByteArrayHelper.ByteArrayToString(nameBytes);
+                symbol.VarName = ByteArrayHelper.ByteArrayToString(nameBytes);
 
                 byte[] typeBytes = new byte[typeLength];
                 Array.Copy(data, pos, typeBytes, 0, typeLength);

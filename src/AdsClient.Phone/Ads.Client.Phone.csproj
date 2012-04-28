@@ -116,6 +116,9 @@
     <Compile Include="..\AdsClient\Common\AdsCommandId.cs">
       <Link>Common\AdsCommandId.cs</Link>
     </Compile>
+    <Compile Include="..\AdsClient\Common\AdsConnectionSettings.cs">
+      <Link>Common\AdsConnectionSettings.cs</Link>
+    </Compile>
     <Compile Include="..\AdsClient\Common\AdsDeviceInfo.cs">
       <Link>Common\AdsDeviceInfo.cs</Link>
     </Compile>
@@ -131,8 +134,8 @@
     <Compile Include="..\AdsClient\Common\AdsState.cs">
       <Link>Common\AdsState.cs</Link>
     </Compile>
-    <Compile Include="..\AdsClient\Common\AdsSymbolInfo.cs">
-      <Link>Common\AdsSymbolInfo.cs</Link>
+    <Compile Include="..\AdsClient\Common\AdsSymhandle.cs">
+      <Link>Common\AdsSymhandle.cs</Link>
     </Compile>
     <Compile Include="..\AdsClient\Common\AdsTransmissionMode.cs">
       <Link>Common\AdsTransmissionMode.cs</Link>
@@ -145,6 +148,12 @@
     </Compile>
     <Compile Include="..\AdsClient\Common\Date.cs">
       <Link>Common\Date.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\IAdsConnectionSettings.cs">
+      <Link>Common\IAdsConnectionSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Common\IAdsSymhandle.cs">
+      <Link>Common\IAdsSymhandle.cs</Link>
     </Compile>
     <Compile Include="..\AdsClient\Common\Time.cs">
       <Link>Common\Time.cs</Link>

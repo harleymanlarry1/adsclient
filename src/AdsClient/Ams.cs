@@ -81,15 +81,6 @@ namespace Ads.Client
         }
 
         /// <summary>
-        /// Show debugging information
-        /// </summary>
-        public bool Verbose
-        {
-            get { return amsSocket.Verbose; }
-            set { amsSocket.Verbose = value; }
-        }
-
-        /// <summary>
         /// Run the notifications in the main thread.
         /// This only works when there is a SynchronizationContext available
         /// </summary>

@@ -77,6 +77,17 @@ namespace Ads.Client.Test
             {
                 uint handle = client.GetSymhandleByName(".TESTTIME");
                 Assert.AreEqual(handle, 2751464077);
+
+                //Symhandle release
+                amsTestSocket.SendMessage = new byte[] {
+                    0,0,48,0,0,0,5,1,204,123,1,1,33,3,10,0,0,120,1,1,137,
+                    128,3,0,4,0,16,0,0,0,0,0,0,0,2,0,0,0,6,240,0,0,0,0,0,
+                    0,4,0,0,0,141,2,0,164};
+
+                amsTestSocket.ReceiveMessage = new byte[] { 
+                     0,0,36,0,0,0,5,1,204,123,1,1,137,128,5,1,204,123,1,1,
+                     33,3,3,0,5,0,4,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0};
+
             }
         }
 

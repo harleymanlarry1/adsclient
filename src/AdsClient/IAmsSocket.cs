@@ -32,7 +32,6 @@ namespace Ads.Client
         bool Connected { get; }
         bool? ConnectedAsync { get; }
         IPEndPoint LocalEndPoint { get; set; }
-        bool Verbose { get; set; }
         event AmsSocketResponseDelegate OnReadCallBack;
 
 

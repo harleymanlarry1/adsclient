@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Ads.Client.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ads.Client.Helpers;
+using System.Diagnostics;
 
 namespace Ads.Client.Test
 {
@@ -26,6 +28,8 @@ namespace Ads.Client.Test
 
         public void Send(byte[] message)
         {
+            Trace.WriteLine("message: " + ByteArrayHelper.ByteArrayToTestString(message));
+            Trace.WriteLine("sendmsg: " + ByteArrayHelper.ByteArrayToTestString(SendMessage));
             Assert.IsTrue(message.SequenceEqual(SendMessage));
             int length = ReceiveMessage.Length-6;
             byte[] response = new byte[length];

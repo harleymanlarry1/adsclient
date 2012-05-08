@@ -25,6 +25,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Ads.Client.Common;
+using System.Diagnostics;
 
 namespace Ads.Client
 {
@@ -57,8 +58,6 @@ namespace Ads.Client
         private bool? connectedAsync;
         public bool? ConnectedAsync { get { return connectedAsync; } }
 
-        public bool Verbose { get; set; }
-
         public bool Connected { get { return socket.Connected; } }
 
         private void Listen()
@@ -79,8 +78,7 @@ namespace Ads.Client
                         {
                             byte[] response = GetAmsMessage(e.Buffer);
 
-                            if (Verbose)
-                                Console.WriteLine("Received bytes: " +
+                            Debug.WriteLine("Received bytes: " +
                                     ByteArrayHelper.ByteArrayToTestString(e.Buffer) + ',' +
                                     ByteArrayHelper.ByteArrayToTestString(response)); 
                             
@@ -239,8 +237,7 @@ namespace Ads.Client
 
         public void Send(byte[] message)
         {
-            if (Verbose)
-                Console.WriteLine("Sending bytes: " + ByteArrayHelper.ByteArrayToTestString(message)); 
+            Debug.WriteLine("Sending bytes: " + ByteArrayHelper.ByteArrayToTestString(message)); 
             socket.Send(message);
         }
 

@@ -35,6 +35,8 @@ You only need this library.
 Twincat is _not_ needed. 
 It will not work if you have programs like system manager or PLC control running.
 
+Here is the NuGet package: https://nuget.org/packages/AdsClient
+
 Mono
 ----
 The version without the async functions works in Mono 2.10

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>0.4.0</version>
+    <authors>Roeland Moors</authors>
+    <owners />
+    <licenseUrl>https://github.com/roelandmoors/adsclient/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/roelandmoors/adsclient</projectUrl>
+    <id>AdsClient.Async</id>
+    <title>AdsClient (async)</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A client implementation of the Beckhoff Twincat ADS protocol. 
+    
+This library can also be used on Windows Phone.</description>
+    <summary>A client implementation of the Beckhoff Twincat ADS protocol (async)</summary>
+    <releaseNotes />
+    <copyright>Roeland Moors</copyright>
+    <tags>Ads</tags>
+  </metadata>
+  <files>
+    <file src="..\bin\AdsClient.dll" target="lib\net40\AdsClient.dll" />
+    <file src="..\lib\AsyncCtpLibrary.dll" target="lib\net40\AsyncCtpLibrary.dll" />
+    <file src="..\bin\AdsClient.Phone.dll" target="lib\sl4-wp71\AdsClient.Phone.dll" />
+    <file src="..\lib\AsyncCtpLibrary_Phone.dll" target="lib\sl4-wp71\AsyncCtpLibrary_Phone.dll" />
+  </files>
+</package>

@@ -35,6 +35,7 @@ namespace Ads.Client.Common
         public string Comment { get; set; }
         public uint Symhandle { get; set; }
         public string ConnectionName { get; set; }
+        public uint ByteLength { get; set; }
 
         public override string ToString()
         {

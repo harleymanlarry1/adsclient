@@ -194,9 +194,9 @@ namespace Ads.Client
             return result.Data;
         }
 
-        public async Task<byte[]> ReadBytesAsync(IAdsSymhandle adsSymhandle, uint readLength)
+        public async Task<byte[]> ReadBytesAsync(IAdsSymhandle adsSymhandle)
         {
-            return await ReadBytesAsync(adsSymhandle.Symhandle, readLength);
+            return await ReadBytesAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength);
         }
 
         public async Task<byte[]> ReadBytesI_Async(uint offset, uint readLength)
@@ -244,9 +244,9 @@ namespace Ads.Client
             return await AddNotificationAsync(varHandle, length, transmissionMode, cycleTime, userData, typeof(byte[]));
         }
 
-        public async Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
+        public async Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
-            return await AddNotificationAsync(adsSymhandle.Symhandle, length, transmissionMode, cycleTime, userData);
+            return await AddNotificationAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength, transmissionMode, cycleTime, userData);
         }
 
         /// <summary>
@@ -270,9 +270,9 @@ namespace Ads.Client
             return result.NotificationHandle; ;
         }
 
-        public async Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData, Type typeOfValue)
+        public async Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData, Type typeOfValue)
         {
-            return await AddNotificationAsync(adsSymhandle.Symhandle, length, transmissionMode, cycleTime, userData, typeOfValue);
+            return await AddNotificationAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength, transmissionMode, cycleTime, userData, typeOfValue);
         }
 
         /// <summary>
@@ -437,9 +437,9 @@ namespace Ads.Client
             return result.Data;
         }
 
-        public byte[] ReadBytes(IAdsSymhandle adsSymhandle, uint readLength)
+        public byte[] ReadBytes(IAdsSymhandle adsSymhandle)
         {
-            return ReadBytes(adsSymhandle.Symhandle, readLength);
+            return ReadBytes(adsSymhandle.Symhandle, adsSymhandle.ByteLength);
         }
 
         public byte[] ReadBytesI(uint offset, uint readLength)
@@ -488,9 +488,9 @@ namespace Ads.Client
             return AddNotification(varHandle, length, transmissionMode, cycleTime, userData, typeof(byte[]));
         }
 
-        public uint AddNotification(IAdsSymhandle adsSymhandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
+        public uint AddNotification(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
-            return AddNotification(adsSymhandle.Symhandle, length, transmissionMode, cycleTime, userData);
+            return AddNotification(adsSymhandle.Symhandle, adsSymhandle.ByteLength, transmissionMode, cycleTime, userData);
         }
 
         /// <summary>
@@ -514,9 +514,9 @@ namespace Ads.Client
             return result.NotificationHandle;
         }
 
-        public uint AddNotification(IAdsSymhandle adsSymhandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData, Type TypeOfValue)
+        public uint AddNotification(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData, Type TypeOfValue)
         {
-            return AddNotification(adsSymhandle.Symhandle, length, transmissionMode, cycleTime, userData, TypeOfValue);
+            return AddNotification(adsSymhandle.Symhandle, adsSymhandle.ByteLength, transmissionMode, cycleTime, userData, TypeOfValue);
         }
 
         /// <summary>

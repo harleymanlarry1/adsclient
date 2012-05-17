@@ -2,3 +2,4 @@ obj
 TestResults
 *.suo
 *.pdb
+*.csproj.user

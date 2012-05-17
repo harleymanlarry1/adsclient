@@ -158,13 +158,12 @@ namespace Ads.Client
             return handle;
         }
 
-        public async Task<IAdsSymhandle> GetSymhandleObjectByNameAsync(string varName)
+        public async Task<uint> GetSymhandlByNameAsync(IAdsSymhandle symhandle)
         {
-            var symhandle = new AdsSymhandle();
-            symhandle.Symhandle = await GetSymhandleByNameAsync(varName);
-            symhandle.VarName = varName;
+            //var symhandle = new AdsSymhandle();
+            symhandle.Symhandle = await GetSymhandleByNameAsync(symhandle.VarName);
             symhandle.ConnectionName = Name;
-            return symhandle;
+            return symhandle.Symhandle;
         }
 
         /// <summary>
@@ -403,13 +402,11 @@ namespace Ads.Client
         /// </summary>
         /// <param name="varName">A twincat variable like ".XXX"</param>
         /// <returns>An AdsSymhandle object</returns>
-        public IAdsSymhandle GetSymhandleObjectByName(string varName)
+        public uint GetSymhandleByName(IAdsSymhandle symHandle)
         {
-            var symhandle = new AdsSymhandle();
-            symhandle.Symhandle = GetSymhandleByName(varName);
-            symhandle.VarName = varName;
-            symhandle.ConnectionName = Name;
-            return symhandle;
+            symHandle.Symhandle = GetSymhandleByName(symHandle.VarName);
+            symHandle.ConnectionName = Name;
+            return symHandle.Symhandle;
         }
 
         /// <summary>

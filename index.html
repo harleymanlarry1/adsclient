@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Adsclient by roelandmoors</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Adsclient</h1>
+        <p>An ADS protocol client library written in C#</p>
+        <p class="view"><a href="https://github.com/roelandmoors/adsclient">View the Project on GitHub <small>roelandmoors/adsclient</small></a></p>
+        <ul>
+          <li><a href="https://github.com/roelandmoors/adsclient/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/roelandmoors/adsclient/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/roelandmoors/adsclient">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>This is the client implementation of the <a href="http://www.beckhoff.com/english.asp?twincat/default.htm">Twincat</a> Ads protocol from <a href="http://http://www.beckhoff.com/">Beckhoff</a>.<br>
+(I'm not affiliated with Beckhoff)</p>
+
+<p>The implementation is in C# and can be used in silverlight, metro, mono and windows phone projects.</p>
+
+<p>There is a library with async and one without.</p>
+
+<p>Async is a new feature and is not yet included in .Net 4.
+That's why I added an async dll in the project.
+For compiling this from VS2010 you need to install <a href="http://msdn.microsoft.com/en-us/vstudio/gg316360">http://msdn.microsoft.com/en-us/vstudio/gg316360</a></p>
+
+<p>The NoAsync library doesn't require this dll and can be used in mono 2.10.<br>
+(It's the same source, but compiled with the NO_ASYNC directive)</p>
+
+<h1>Getting started</h1>
+
+<h2>Ads Route</h2>
+
+<p>First you have to give your device/machine the permission to communicate with the Twincat Ads server by adding a route.</p>
+
+<p>There are different ways of doing this depending on the device.
+You can use the Twincat Remote Manager for example.
+On a CX9001 device you can connect with cerhost.exe and add a route with 
+\Hard Disk\System\TcAmsRemoteMgr.exe
+There is also an experimental function AdsClient.AddRoute() for doing this.</p>
+
+<p><em>If the library is not working, an incorrect/missing route may be the problem!.</em></p>
+
+<h2>Installation</h2>
+
+<p>You only need this library.
+Twincat is <em>not</em> needed. 
+It will not work if you have programs like system manager or PLC control running.</p>
+
+<p>Here is the NuGet package: <a href="https://nuget.org/packages/AdsClient">https://nuget.org/packages/AdsClient</a></p>
+
+<h2>Mono</h2>
+
+<p>The version without the async functions works in Mono 2.10</p>
+
+<p>Mono for android:
+Remember to set internet permissions in the manifest.
+You must also configure a route for your android device.</p>
+
+<h2>External documentation</h2>
+
+<p><a href="http://infosys.beckhoff.com/english.php?content=../content/1033/TcAdsAmsSpec/HTML/TcAdsAmsSpec_Intro.htm&amp;id=">Specification for the ADS/AMS protocol</a></p>
+
+<p><a href="http://infosys.beckhoff.com/content/1033/tcadsdeviceplc/html/tcadsdeviceplc_intro.htm?id=11742">Index-Group/Offset specification</a></p>
+
+<h1>Examples</h1>
+
+<h2>Simple hello machine</h2>
+
+<div class="highlight">
+<pre><span class="k">using</span> <span class="p">(</span><span class="n">AdsClient</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AdsClient</span><span class="p">(</span>
+        <span class="n">amsNetIdSource</span><span class="p">:</span> <span class="s">"10.0.0.120.1.1"</span><span class="p">,</span>
+        <span class="n">ipTarget</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span>
+        <span class="n">amsNetIdTarget</span><span class="p">:</span> <span class="s">"5.1.204.160.1.1"</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">AdsDeviceInfo</span> <span class="n">deviceInfo</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">ReadDeviceInfo</span><span class="p">();</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">deviceInfo</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Async version:</p>
+
+<div class="highlight">
+<pre><span class="k">using</span> <span class="p">(</span><span class="n">AdsClient</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AdsClient</span><span class="p">(</span>
+        <span class="n">amsNetIdSource</span><span class="p">:</span> <span class="s">"10.0.0.120.1.1"</span><span class="p">,</span>
+        <span class="n">ipTarget</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span>
+        <span class="n">amsNetIdTarget</span><span class="p">:</span> <span class="s">"5.1.204.160.1.1"</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">AdsDeviceInfo</span> <span class="n">deviceInfo</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">ReadDeviceInfoAsync</span><span class="p">();</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">deviceInfo</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Disposing AdsClient may give you first chance exceptions in the output window.
+This happens because I'm closing the socket while it's listening for ads packets.
+These exceptions are handled in the library and don't cause any problems.
+(If someone knows a better way, please let me know)</p>
+
+<h2>Read/Write a variable by name</h2>
+
+<div class="highlight">
+<pre><span class="k">using</span> <span class="p">(</span><span class="n">AdsClient</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AdsClient</span><span class="p">(</span>
+        <span class="n">amsNetIdSource</span><span class="p">:</span> <span class="s">"10.0.0.120.1.1"</span><span class="p">,</span>
+        <span class="n">ipTarget</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span>
+        <span class="n">amsNetIdTarget</span><span class="p">:</span> <span class="s">"5.1.204.165.1.1"</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="kt">uint</span> <span class="n">varHandle</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">GetSymhandleByName</span><span class="p">(</span><span class="s">".TestVar"</span><span class="p">);</span>
+    <span class="n">client</span><span class="p">.</span><span class="n">Write</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">varHandle</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+    <span class="kt">byte</span> <span class="k">value</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Read</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">varHandle</span><span class="p">);</span>
+    <span class="n">ReleaseSymhandle</span><span class="p">(</span><span class="n">varHandle</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Async version:</p>
+
+<div class="highlight">
+<pre><span class="k">using</span> <span class="p">(</span><span class="n">AdsClient</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AdsClient</span><span class="p">(</span>
+        <span class="n">amsNetIdSource</span><span class="p">:</span> <span class="s">"10.0.0.120.1.1"</span><span class="p">,</span>
+        <span class="n">ipTarget</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span>
+        <span class="n">amsNetIdTarget</span><span class="p">:</span> <span class="s">"5.1.204.165.1.1"</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="kt">uint</span> <span class="n">varHandle</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">GetSymhandleByNameAsync</span><span class="p">(</span><span class="s">".TestVar"</span><span class="p">);</span>
+    <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">WriteAsync</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">varHandle</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+    <span class="kt">byte</span> <span class="k">value</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">ReadAsync</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">varHandle</span><span class="p">);</span>
+    <span class="n">await</span> <span class="nf">ReleaseSymhandleAsync</span><span class="p">(</span><span class="n">varHandle</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>You can also use the AdsCommands directly if you need to write directly with IndexGroup/IndexOffset</p>
+
+<h2>Working with notifications</h2>
+
+<div class="highlight">
+<pre><span class="k">using</span> <span class="p">(</span><span class="n">AdsClient</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AdsClient</span><span class="p">(</span>
+        <span class="n">amsNetIdSource</span><span class="p">:</span> <span class="s">"10.0.0.120.1.1"</span><span class="p">,</span>
+        <span class="n">ipTarget</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span>
+        <span class="n">amsNetIdTarget</span><span class="p">:</span> <span class="s">"5.1.204.165.1.1"</span><span class="p">))</span>
+<span class="p">{</span>
+  <span class="n">client</span><span class="p">.</span><span class="n">OnNotification</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Notification</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span> <span class="p">};</span>
+  <span class="kt">uint</span> <span class="n">hVar1</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">GetSymhandleByName</span><span class="p">(</span><span class="s">".VarTest1"</span><span class="p">);</span>
+  <span class="kt">uint</span> <span class="n">hVar2</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">GetSymhandleByName</span><span class="p">(</span><span class="s">".VarTest2"</span><span class="p">);</span>
+  <span class="kt">uint</span> <span class="n">hNoti1</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">AddNotification</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">hVar1</span><span class="p">,</span> 
+                                    <span class="n">AdsTransmissionMode</span><span class="p">.</span><span class="n">Cyclic</span><span class="p">,</span> <span class="m">2000</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+  <span class="kt">uint</span> <span class="n">hNoti2</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">AddNotification</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">hVar2</span><span class="p">,</span> 
+                                    <span class="n">AdsTransmissionMode</span><span class="p">.</span><span class="n">OnChange</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+  <span class="n">Thread</span><span class="p">.</span><span class="n">Sleep</span><span class="p">(</span><span class="m">5000</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2>Simple async example with most functions</h2>
+
+<p>Here is an async example.
+The non async functions work the same. (functions without async at the end) 
+Just remove all the await/async words</p>
+
+<div class="highlight">
+<pre><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Threading</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Threading.Tasks</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Ads.Client</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Ads.Client.Common</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">AdsTest</span>
+<span class="p">{</span>
+  <span class="k">class</span> <span class="nc">Program</span>
+  <span class="p">{</span>
+    <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(!</span><span class="n">RunTestAsync</span><span class="p">().</span><span class="n">Wait</span><span class="p">(</span><span class="m">10000</span><span class="p">))</span> 
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"Timeout!"</span><span class="p">);</span>
+      <span class="k">else</span>
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"done"</span><span class="p">);</span>
+      <span class="n">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">static</span> <span class="n">async</span> <span class="n">Task</span> <span class="nf">RunTest</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="k">using</span> <span class="p">(</span><span class="n">AdsClient</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AdsClient</span><span class="p">(</span>
+                        <span class="n">amsNetIdSource</span><span class="p">:</span><span class="s">"192.168.5.6.1.1"</span><span class="p">,</span>  
+                        <span class="n">ipTarget</span><span class="p">:</span><span class="s">"192.168.3.4"</span><span class="p">,</span>       
+                        <span class="n">amsNetIdTarget</span><span class="p">:</span><span class="s">"192.168.3.4.1.1"</span><span class="p">))</span>  
+      <span class="p">{</span>
+          <span class="n">AdsDeviceInfo</span> <span class="n">deviceInfo</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">ReadDeviceInfoAsync</span><span class="p">();</span>
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"Device info: "</span> <span class="p">+</span> <span class="n">deviceInfo</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+
+          <span class="n">AdsState</span> <span class="n">state</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">ReadStateAsync</span><span class="p">();</span>
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"State: "</span> <span class="p">+</span> <span class="n">state</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+
+          <span class="n">client</span><span class="p">.</span><span class="n">OnNotification</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="n">e</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> 
+                <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Notification</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span> 
+          <span class="p">};</span>
+
+          <span class="kt">uint</span> <span class="n">varHandle1</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">GetSymhandleByNameAsync</span><span class="p">(</span><span class="s">".VariableName1"</span><span class="p">);</span>
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"Variable1 handle: "</span> <span class="p">+</span> <span class="n">varHandle1</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+
+          <span class="kt">uint</span> <span class="n">varHandle2</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">GetSymhandleByNameAsync</span><span class="p">(</span><span class="s">".VariableName2"</span><span class="p">);</span>
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"Variable2 handle: "</span> <span class="p">+</span> <span class="n">varHandle2</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+
+          <span class="kt">uint</span> <span class="n">notification1Handle</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">AddNotificationAsync</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span>
+                <span class="n">varHandle1</span><span class="p">,</span> <span class="n">AdsTransmissionMode</span><span class="p">.</span><span class="n">Cyclic</span><span class="p">,</span> <span class="m">5000</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+          <span class="kt">uint</span> <span class="n">notification2Handle</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">AddNotificationAsync</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span>
+                <span class="n">varHandle2</span><span class="p">,</span> <span class="n">AdsTransmissionMode</span><span class="p">.</span><span class="n">OnChange</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+
+          <span class="kt">byte</span> <span class="k">value</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">ReadAsync</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">varHandle1</span><span class="p">);</span>
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"Value before write: "</span> <span class="p">+</span> <span class="k">value</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+
+          <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">WriteAsync</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">varHandle1</span><span class="p">,</span> <span class="m">1</span><span class="p">);</span>
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"I turned something on"</span><span class="p">);</span>
+
+          <span class="k">value</span> <span class="p">=</span> <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">ReadAsync</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">varHandle1</span><span class="p">);</span>
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"Value after write: "</span> <span class="p">+</span> <span class="k">value</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+
+          <span class="n">await</span> <span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="m">5000</span><span class="p">);</span>  <span class="c1">//or TaskEx.Delay() in .Net 4</span>
+
+          <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">WriteAsync</span><span class="p">&lt;</span><span class="kt">byte</span><span class="p">&gt;(</span><span class="n">varHandle1</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"I turned something off"</span><span class="p">);</span>
+
+          <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"Deleting active notifications..."</span><span class="p">);</span>
+          <span class="n">await</span> <span class="n">client</span><span class="p">.</span><span class="n">DeleteActiveNotificationsAsync</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2>Using commands directly</h2>
+
+<div class="highlight">
+<pre><span class="n">AdsReadStateCommand</span> <span class="n">stateCmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AdsReadStateCommand</span><span class="p">();</span>
+<span class="kt">string</span> <span class="n">state</span> <span class="p">=</span> <span class="n">stateCmd</span><span class="p">.</span><span class="n">Run</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">Ams</span><span class="p">).</span><span class="n">AdsState</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"State: "</span> <span class="p">+</span> <span class="n">state</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h2>Special functions</h2>
+
+<p>These functions aren't documented by Beckhoff:</p>
+
+<h3>Add route on target</h3>
+
+<p>This code may not work because it is not documented as far as I know. Use at own  risk.
+The default username is 'Administrator' with an empty password.
+The address can be an ip number or the dns name.</p>
+
+<div class="highlight">
+<pre><span class="n">AdsSpecial</span><span class="p">.</span><span class="n">AddRoute</span><span class="p">(</span>
+    <span class="n">amsNetIdSource</span><span class="p">:</span> <span class="s">"10.0.0.120.1.1"</span><span class="p">,</span> 
+    <span class="n">ipTarget</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span> 
+    <span class="n">routeName</span><span class="p">:</span> <span class="s">"routename"</span><span class="p">,</span> 
+    <span class="n">address</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span>
+    <span class="n">username</span><span class="p">:</span> <span class="s">"user"</span><span class="p">,</span>
+    <span class="n">passwd</span><span class="p">:</span> <span class="s">"secret"</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>or</p>
+
+<div class="highlight">
+<pre><span class="n">AdsSpecial</span><span class="p">.</span><span class="n">AddRoute</span><span class="p">(</span>
+    <span class="n">amsNetIdSource</span><span class="p">:</span> <span class="s">"10.0.0.120.1.1"</span><span class="p">,</span> 
+    <span class="n">ipTarget</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span> 
+    <span class="n">routeName</span><span class="p">:</span> <span class="s">"routename"</span><span class="p">,</span> 
+    <span class="n">address</span><span class="p">:</span> <span class="s">"laptop1"</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h3>Get target description</h3>
+
+<div class="highlight">
+<pre><span class="k">using</span> <span class="p">(</span><span class="n">AdsClient</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AdsClient</span><span class="p">(</span>
+        <span class="n">amsNetIdSource</span><span class="p">:</span> <span class="s">"10.0.0.120.1.1"</span><span class="p">,</span>
+        <span class="n">ipTarget</span><span class="p">:</span> <span class="s">"10.0.0.2"</span><span class="p">,</span>
+        <span class="n">amsNetIdTarget</span><span class="p">:</span> <span class="s">"5.1.204.130.1.1"</span><span class="p">))</span>
+<span class="p">{</span>
+  <span class="kt">string</span> <span class="n">xml</span> <span class="p">=</span> <span class="n">adsClient</span><span class="p">.</span><span class="n">Special</span><span class="p">.</span><span class="n">GetTargetDesc</span><span class="p">();</span>
+  <span class="n">xml</span> <span class="p">=</span> <span class="n">XDocument</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">xml</span><span class="p">).</span><span class="n">ToString</span><span class="p">();</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/roelandmoors">roelandmoors</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>

@@ -221,6 +221,37 @@ string state = stateCmd.Run(client.Ams).AdsState.ToString();
 Console.WriteLine("State: " + state);
 ```
 
+## Serialize to class
+
+It's possible to read directly to a class or write from a class.  
+You need to set the AdsSerializable attribute on the class and the Ads attribute on the fields/properties you need.  
+The fields without the Ads attribute are ignored. 
+
+```C#
+[AdsSerializable]
+public class TestClass
+{
+    [Ads]
+    public UInt16 Var1 { get; set; }
+
+    [Ads]
+    public byte Var2 { get; set; }
+}
+
+var testobject = client.Read<TestClass>(handle);
+client.Write<TestClass>(handle, testobject);
+```
+
+This is an example struct in Twincat:
+```
+TYPE TestStruct :
+STRUCT
+    Var1 : INT;
+    Var2 : BYTE;
+END_STRUCT
+END_TYPE
+```
+
 ## Special functions
 
 These functions aren't documented by Beckhoff:

@@ -219,13 +219,13 @@ namespace Ads.Client
         /// <typeparam name="T">A type like byte, ushort, uint depending on the length of the twincat variable</typeparam>
         /// <param name="varHandle">The handle returned by GetSymhandleByNameAsync</param>
         /// <returns>The value of the twincat variable</returns>
-        public async Task<T> ReadAsync<T>(uint varHandle) where T : IConvertible
+        public async Task<T> ReadAsync<T>(uint varHandle) 
         {
             byte[] value = await ReadBytesAsync(varHandle, GenericHelper.GetByteLengthFromType<T>(DefaultStringLength));
-            return GenericHelper.GetResultFromBytes<T>(value);
+            return GenericHelper.GetResultFromBytes<T>(value, DefaultStringLength);
         }
 
-        public async Task<T> ReadAsync<T>(IAdsSymhandle adsSymhandle) where T : IConvertible
+        public async Task<T> ReadAsync<T>(IAdsSymhandle adsSymhandle) 
         {
             return await ReadAsync<T>(adsSymhandle.Symhandle);
         }
@@ -284,13 +284,13 @@ namespace Ads.Client
         /// <param name="cycleTime">The cyclic time in ms. If used with OnChange, then the value is send once after this time in ms</param>
         /// <param name="userData">A custom object that can be used in the callback</param>
         /// <returns></returns>
-        public async Task<uint> AddNotificationAsync<T>(uint varHandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) where T : IConvertible
+        public async Task<uint> AddNotificationAsync<T>(uint varHandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) 
         {
             uint length = GenericHelper.GetByteLengthFromType<T>(DefaultStringLength);
             return await AddNotificationAsync(varHandle, length, transmissionMode, cycleTime, userData, typeof(T));
         }
 
-        public async Task<uint> AddNotificationAsync<T>(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) where T : IConvertible
+        public async Task<uint> AddNotificationAsync<T>(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
             return await AddNotificationAsync<T>(adsSymhandle.Symhandle, transmissionMode, cycleTime, userData);
         }
@@ -328,13 +328,13 @@ namespace Ads.Client
         /// <typeparam name="T">A type like byte, ushort, uint depending on the length of the twincat variable</typeparam>
         /// <param name="varHandle">The handle returned by GetSymhandleByNameAsync</param>
         /// <param name="varValue">The value to be sent</param>
-        public async Task WriteAsync<T>(uint varHandle, T varValue) where T : IConvertible
+        public async Task WriteAsync<T>(uint varHandle, T varValue) 
         {
-            IEnumerable<byte> varValueBytes = GenericHelper.GetBytesFromType<T>(varValue);
+            IEnumerable<byte> varValueBytes = GenericHelper.GetBytesFromType<T>(varValue, defaultStringLenght);
             await this.WriteBytesAsync(varHandle, varValueBytes);
         }
 
-        public async Task WriteAsync<T>(IAdsSymhandle adsSymhandle, T varValue) where T : IConvertible
+        public async Task WriteAsync<T>(IAdsSymhandle adsSymhandle, T varValue) 
         {
             await WriteAsync<T>(adsSymhandle.Symhandle, varValue);
         }
@@ -463,13 +463,13 @@ namespace Ads.Client
         /// <typeparam name="T">A type like byte, ushort, uint depending on the length of the twincat variable</typeparam>
         /// <param name="varHandle">The handle returned by GetSymhandleByName</param>
         /// <returns>The value of the twincat variable</returns>
-        public T Read<T>(uint varHandle) where T : IConvertible
+        public T Read<T>(uint varHandle) 
         {
             byte[] value = ReadBytes(varHandle, GenericHelper.GetByteLengthFromType<T>(DefaultStringLength));
-            return GenericHelper.GetResultFromBytes<T>(value);
+            return GenericHelper.GetResultFromBytes<T>(value, DefaultStringLength);
         }
 
-        public T Read<T>(IAdsSymhandle adsSymhandle) where T : IConvertible
+        public T Read<T>(IAdsSymhandle adsSymhandle) 
         {
             return Read<T>(adsSymhandle.Symhandle);
         }
@@ -528,13 +528,13 @@ namespace Ads.Client
         /// <param name="cycleTime">The cyclic time in ms. If used with OnChange, then the value is send once after this time in ms</param>
         /// <param name="userData">A custom object that can be used in the callback</param>
         /// <returns></returns>
-        public uint AddNotification<T>(uint varHandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) where T : IConvertible
+        public uint AddNotification<T>(uint varHandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
             uint length = GenericHelper.GetByteLengthFromType<T>(DefaultStringLength);
             return AddNotification(varHandle, length, transmissionMode, cycleTime, userData, typeof(T));
         }
 
-        public uint AddNotification<T>(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) where T : IConvertible
+        public uint AddNotification<T>(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) 
         {
             return AddNotification<T>(adsSymhandle.Symhandle, transmissionMode, cycleTime, userData);
         }
@@ -572,13 +572,13 @@ namespace Ads.Client
         /// <typeparam name="T">A type like byte, ushort, uint depending on the length of the twincat variable</typeparam>
         /// <param name="varHandle">The handle returned by GetSymhandleByName</param>
         /// <param name="varValue">The value to be sent</param>
-        public void Write<T>(uint varHandle, T varValue) where T : IConvertible
+        public void Write<T>(uint varHandle, T varValue)
         {
-            IEnumerable<byte> varValueBytes = GenericHelper.GetBytesFromType<T>(varValue);
+            IEnumerable<byte> varValueBytes = GenericHelper.GetBytesFromType<T>(varValue, defaultStringLenght);
             this.WriteBytes(varHandle, varValueBytes);
         }
 
-        public void Write<T>(IAdsSymhandle adsSymhandle, T varValue) where T : IConvertible
+        public void Write<T>(IAdsSymhandle adsSymhandle, T varValue)
         {
             Write<T>(adsSymhandle, varValue);
         }

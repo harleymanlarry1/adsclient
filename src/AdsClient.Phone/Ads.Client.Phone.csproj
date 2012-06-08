@@ -162,6 +162,12 @@
     <Compile Include="..\AdsClient\Common\Time.cs">
       <Link>Common\Time.cs</Link>
     </Compile>
+    <Compile Include="..\AdsClient\Helpers\AdsAttribute.cs">
+      <Link>Helpers\AdsAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\AdsClient\Helpers\AdsSerializableAttribute.cs">
+      <Link>Helpers\AdsSerializableAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AdsClient\Helpers\AmsHeaderHelper.cs">
       <Link>Helpers\AmsHeaderHelper.cs</Link>
     </Compile>

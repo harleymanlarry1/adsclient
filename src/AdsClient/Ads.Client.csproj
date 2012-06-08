@@ -59,6 +59,8 @@
     <Compile Include="Common\AdsConnectionSettings.cs" />
     <Compile Include="Common\IAdsConnectionSettings.cs" />
     <Compile Include="Common\IAdsSymhandle.cs" />
+    <Compile Include="Helpers\AdsAttribute.cs" />
+    <Compile Include="Helpers\AdsSerializableAttribute.cs" />
     <Compile Include="Properties\AssemblyVersionInfo.cs" />
     <Compile Include="Common\AdsNotificationArgs.cs" />
     <Compile Include="Common\AdsSymhandle.cs" />

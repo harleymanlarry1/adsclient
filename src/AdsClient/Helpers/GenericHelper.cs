@@ -122,6 +122,11 @@ namespace Ads.Client.Helpers
                         var type = attr.GetPropery().PropertyType;
                         var val = attr.GetPropery().GetValue(varValue, null) as IConvertible;
                         var bytes = GetBytesFromConvertible(type, val, defaultStringLength);
+                        if (bytes.Count() != attr.ByteSize)
+                        {
+                            if (bytes.Count() > attr.ByteSize)
+                                bytes = bytes.Take((int)attr.ByteSize).ToList();
+                        }
                         varValueBytes.AddRange(bytes);
                     }
                 }
@@ -139,7 +144,7 @@ namespace Ads.Client.Helpers
             if (value == null) return null;
 
             switch (value.GetTypeCode())
-            {
+            {  
                 case TypeCode.Boolean: varValueBytes = BitConverter.GetBytes(value.ToBoolean(null)); break;
                 case TypeCode.Byte: varValueBytes = new byte[] { value.ToByte(null) }; break;
                 case TypeCode.Char: varValueBytes = BitConverter.GetBytes(value.ToChar(null)); break;
@@ -195,14 +200,34 @@ namespace Ads.Client.Helpers
             {
                 case TypeCode.Boolean: v = value[0]; break;
                 case TypeCode.Byte: v = value[0]; break;
-                case TypeCode.Int16: v = BitConverter.ToInt16(value, 0); break;
-                case TypeCode.Int32: v = BitConverter.ToInt32(value, 0); break;
-                case TypeCode.Int64: v = BitConverter.ToInt64(value, 0); break;
-                case TypeCode.UInt16: v = BitConverter.ToUInt16(value, 0); break;
-                case TypeCode.UInt32: v = BitConverter.ToUInt32(value, 0); break;
-                case TypeCode.UInt64: v = BitConverter.ToUInt64(value, 0); break;
-                case TypeCode.Single: v = BitConverter.ToSingle(value, 0); break;
-                case TypeCode.Double: v = BitConverter.ToDouble(value, 0); break;
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                    switch (value.Length)
+                    {
+                        case 2: v = BitConverter.ToInt16(value, 0); break;
+                        case 4: v = BitConverter.ToInt32(value, 0); break;
+                        case 8: v = BitConverter.ToInt64(value, 0); break;
+                    }
+                    break;
+                case TypeCode.UInt16:
+                case TypeCode.UInt32: 
+                case TypeCode.UInt64:
+                    switch (value.Length)
+                    {
+                        case 2: v = BitConverter.ToUInt16(value, 0); break;
+                        case 4: v = BitConverter.ToUInt32(value, 0); break;
+                        case 8: v = BitConverter.ToUInt64(value, 0); break;
+                    }
+                    break;               
+                case TypeCode.Single: 
+                case TypeCode.Double: 
+                    switch (value.Length)
+                    {
+                        case 4: v = BitConverter.ToSingle(value, 0); break;
+                        case 8: v = BitConverter.ToDouble(value, 0); break;
+                    }
+                    break; 
                 case TypeCode.String: v = ByteArrayHelper.ByteArrayToString(value); break;
                 case TypeCode.Object:
                     if (Type.Equals(typeof(Date), type)) v = new Date(BitConverter.ToUInt32(value, 0));

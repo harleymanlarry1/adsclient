@@ -49,20 +49,8 @@ namespace Ads.Client.Helpers
                 if (AdsAttribute.IsAdsSerializable<T>())
                 {
                     uint length = 0;
-                    var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance); 
-                    foreach (var p in props)
-                    {
-                        AdsAttribute attr = AdsAttribute.GetAdsAttribute(p);
-                        if (attr != null)
-                        {
-                            if (attr.ByteSize == 0)
-                            {
-                                var proptype = p.PropertyType;
-                                length += GetByteLengthFromConvertibleType(proptype, defaultStringLength);
-                            }
-                            else length += attr.ByteSize;
-                        }
-                    }
+                    List<AdsAttribute> attributes = GetAdsAttributes(typeof(T), defaultStringLength);
+                    attributes.ForEach(a => length += a.ByteSize);
                     return length;
                 }
                 else throw new AdsException(String.Format(TypeNotImplementedError, typeof(T).Name));
@@ -88,25 +76,17 @@ namespace Ads.Client.Helpers
                 if (AdsAttribute.IsAdsSerializable<T>())
                 {
                     var adsObj = (T)Activator.CreateInstance(typeof(T));
-                    var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance); 
+                    List<AdsAttribute> attributes = GetAdsAttributes(typeof(T), defaultStringLength);
+
                     uint pos = 0;
-                    foreach (var p in props)
+                    foreach (var attr in attributes)
                     {
-                        AdsAttribute attr = AdsAttribute.GetAdsAttribute(p);
-                        if (attr != null)
-                        {
-                            var proptype = p.PropertyType;
-                            uint length = attr.ByteSize;
-                            if (length == 0) length = GetByteLengthFromConvertibleType(proptype, defaultStringLength);
-                            if (length > 0)
-                            {
-                                byte[] valarray = new byte[length];
-                                Array.Copy(value, (int)pos, valarray, 0, (int)length);
-                                object val = GetBytesFromConvertibleType(proptype, valarray);
-                                p.SetValue(adsObj, val, null);
-                                pos += length;
-                            }
-                        }
+                        byte[] valarray = new byte[attr.ByteSize];
+                        Array.Copy(value, (int)pos, valarray, 0, (int)attr.ByteSize);
+                        var type = attr.GetPropery().PropertyType;
+                        object val = GetBytesFromConvertibleType(type, valarray);
+                        attr.GetPropery().SetValue(adsObj, val, null);
+                        pos += attr.ByteSize;
                     }
 
                     return adsObj;
@@ -135,16 +115,14 @@ namespace Ads.Client.Helpers
                 {
                     var totallength = GetByteLengthFromType<T>(defaultStringLength);
                     varValueBytes = new List<byte>((int)totallength);
+                    List<AdsAttribute> attributes = GetAdsAttributes(typeof(T), defaultStringLength);
 
-                    var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    foreach (var p in props)
+                    foreach (var attr in attributes)
                     {
-                        AdsAttribute attr = AdsAttribute.GetAdsAttribute(p);
-                        if (attr != null)
-                        {
-                            var bytes = GetBytesFromConvertible(p.PropertyType, p.GetValue(varValue, null) as IConvertible, defaultStringLength);
-                            varValueBytes.AddRange(bytes);
-                        }
+                        var type = attr.GetPropery().PropertyType;
+                        var val = attr.GetPropery().GetValue(varValue, null) as IConvertible;
+                        var bytes = GetBytesFromConvertible(type, val, defaultStringLength);
+                        varValueBytes.AddRange(bytes);
                     }
                 }
             }
@@ -236,6 +214,30 @@ namespace Ads.Client.Helpers
             }
 
             return (v);
+        }
+
+        public static List<AdsAttribute> GetAdsAttributes(Type type, uint defaultStringLength)
+        {
+            List<AdsAttribute> attributes = new List<AdsAttribute>();
+
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (var p in props)
+            {
+                AdsAttribute attr = AdsAttribute.GetAdsAttribute(p);
+                if (attr != null)
+                {
+                    attr.SetProperty(p);
+                    if (attr.ByteSize == 0)
+                    {
+                        attr.ByteSize = GetByteLengthFromConvertibleType(p.PropertyType, defaultStringLength);
+                    }
+                    attributes.Add(attr);
+                }
+            }
+
+            attributes = attributes.OrderBy(a => a.Order).ToList();
+
+            return attributes;
         }
 
         const string TypeNotImplementedError = "Type {0} must be IConvertible or has the AdsSerializable attribute!";

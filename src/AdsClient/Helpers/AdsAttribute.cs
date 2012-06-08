@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Ads.Client
 {
@@ -38,8 +39,20 @@ namespace Ads.Client
             Order = 99;
         }
 
+        private PropertyInfo propertyInfo;
 
-        public static AdsAttribute GetAdsAttribute(System.Reflection.PropertyInfo p)
+        public void SetProperty(PropertyInfo p)
+        {
+            propertyInfo = p;
+        }
+
+        public PropertyInfo GetPropery()
+        {
+            return propertyInfo;
+        }
+
+
+        public static AdsAttribute GetAdsAttribute(PropertyInfo p)
         {
             AdsAttribute attribute = null;
             var attributes = p.GetCustomAttributes(typeof(AdsAttribute), false);

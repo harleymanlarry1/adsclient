@@ -1,7 +1,8 @@
 This is the client implementation of the [Twincat](http://www.beckhoff.com/english.asp?twincat/default.htm) Ads protocol from [Beckhoff](http://http://www.beckhoff.com/).   
 (I'm not affiliated with Beckhoff)
 
-The implementation is in C# and can be used in silverlight, metro, mono and windows phone projects.
+The implementation is in C# and can be used in silverlight, metro, mono and windows phone projects.  
+Because of mono you can use it on unix/linux systems and even on Android/iPhone if you have have monotouch.
 
 There is a library with async and one without.
 
@@ -35,7 +36,7 @@ You only need this library.
 Twincat is _not_ needed. 
 It will not work if you have programs like system manager or PLC control running.
 
-Here is the NuGet package: https://nuget.org/packages/AdsClient
+Here is the NuGet package: https://nuget.org/packages?q=AdsClient
 
 Mono
 ----
@@ -137,7 +138,7 @@ using (AdsClient client = new AdsClient(
 }
 ```
 
-## Simple async example with most functions
+## Simple async example with most basic functions
 
 Here is an async example.
 The non async functions work the same. (functions without async at the end) 

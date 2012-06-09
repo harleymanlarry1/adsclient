@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>0.4.2</version>
+    <version>0.4.3</version>
     <authors>Roeland Moors</authors>
     <owners />
     <licenseUrl>https://github.com/roelandmoors/adsclient/blob/master/LICENSE</licenseUrl>

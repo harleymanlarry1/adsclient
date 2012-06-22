@@ -26,7 +26,8 @@ There are different ways of doing this depending on the device.
 You can use the Twincat Remote Manager for example.
 On a CX9001 device you can connect with cerhost.exe and add a route with 
 \Hard Disk\System\TcAmsRemoteMgr.exe
-There is also an experimental function AdsClient.AddRoute() for doing this.
+There is also an experimental function AdsClient.AddRoute() for doing this.  
+(You may not to reboot after this!)
 
 *If the library is not working, an incorrect/missing route may be the problem!.*
 

@@ -20,7 +20,7 @@ namespace Ads.Client.Test
             amsTestSocket.ReceiveMessage = new byte[] { 
                     0,0,56,0,0,0,10,0,0,120,1,1,137,128,5,1,204,123,
                     1,1,33,3,1,0,5,0,24,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
-                    0,2,11,234,5,84,67,97,116,80,08,99,67,116,114,108,0,0,0,0,0};
+                    0,2,11,234,5,84,67,97,116,80,108,99,67,116,114,108,0,0,0,0,0};
 
             using (AdsClient client = new AdsClient(
                     amsNetIdSource: "10.0.0.120.1.1",
@@ -30,7 +30,7 @@ namespace Ads.Client.Test
                 var task = client.ReadDeviceInfoAsync();
                 task.Wait(5000);
                 AdsDeviceInfo deviceInfo = task.Result;
-                Assert.AreEqual(deviceInfo.ToString(), "Version: 2.11.1514 Devicename: 54-43-61-74-50-08-63-43-74-72-6C-00-00-00-00-00");
+                Assert.AreEqual(deviceInfo.ToString(), "Version: 2.11.1514 Devicename: TCatPlcCtrl");
             }
         }
 

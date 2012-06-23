@@ -38,7 +38,7 @@ namespace Ads.Client.Helpers
         /// <returns></returns>
         public static uint GetByteLengthFromType<T>(uint defaultStringLength) 
         {
-            if (typeof(T) is IConvertible)
+            if (typeof(IConvertible).IsAssignableFrom(typeof(T)))
             {
                 var length = GetByteLengthFromConvertibleType(typeof(T), defaultStringLength);
                 if (length == 0) throw new AdsException(String.Format("Function GetByteLengthFromType doesn't support this type ({0}) yet!", typeof(T).Name));
@@ -65,7 +65,7 @@ namespace Ads.Client.Helpers
         /// <returns></returns>
         public static T GetResultFromBytes<T>(byte[] value, uint defaultStringLength) 
         {
-            if (typeof(T) is IConvertible)
+            if (typeof(IConvertible).IsAssignableFrom(typeof(T)))
             {
                 object v = GetBytesFromConvertibleType(typeof(T),  value);
                 if (v == null) throw new AdsException("Function GetResultFromBytes doesn't support this type yet!");
@@ -105,7 +105,7 @@ namespace Ads.Client.Helpers
         {
             List<byte> varValueBytes = null;
 
-            if (typeof(T) is IConvertible)
+            if (typeof(IConvertible).IsAssignableFrom(typeof(T)))
             {
                 varValueBytes = GetBytesFromConvertible(typeof(T), varValue as IConvertible, defaultStringLength).ToList();
             }

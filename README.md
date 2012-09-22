@@ -94,7 +94,7 @@ These exceptions are handled in the library and don't cause any problems.
 using (AdsClient client = new AdsClient(
         amsNetIdSource: "10.0.0.120.1.1",
         ipTarget: "10.0.0.2",
-        amsNetIdTarget: "5.1.204.165.1.1"))
+        amsNetIdTarget: "5.1.204.160.1.1"))
 {
     uint varHandle = client.GetSymhandleByName(".TestVar");
     client.Write<byte>(varHandle, 0);
@@ -109,7 +109,7 @@ Async version:
 using (AdsClient client = new AdsClient(
         amsNetIdSource: "10.0.0.120.1.1",
         ipTarget: "10.0.0.2",
-        amsNetIdTarget: "5.1.204.165.1.1"))
+        amsNetIdTarget: "5.1.204.160.1.1"))
 {
     uint varHandle = await client.GetSymhandleByNameAsync(".TestVar");
     await client.WriteAsync<byte>(varHandle, 0);
@@ -126,7 +126,7 @@ You can also use the AdsCommands directly if you need to write directly with Ind
 using (AdsClient client = new AdsClient(
         amsNetIdSource: "10.0.0.120.1.1",
         ipTarget: "10.0.0.2",
-        amsNetIdTarget: "5.1.204.165.1.1"))
+        amsNetIdTarget: "5.1.204.160.1.1"))
 {
   client.OnNotification += (sender, e) => { Console.WriteLine(e.Notification.ToString()); };
   uint hVar1 = client.GetSymhandleByName(".VarTest1");

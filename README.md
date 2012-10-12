@@ -26,7 +26,6 @@ There are different ways of doing this depending on the device.
 You can use the Twincat Remote Manager for example.
 On a CX9001 device you can connect with cerhost.exe and add a route with 
 \Hard Disk\System\TcAmsRemoteMgr.exe
-There is also an experimental function AdsClient.AddRoute() for doing this.  
 (You may not to reboot after this!)
 
 *If the library is not working, an incorrect/missing route may be the problem!.*
@@ -257,31 +256,6 @@ END_TYPE
 ## Special functions
 
 These functions aren't documented by Beckhoff:
-
-### Add route on target
-
-This code may not work because it is not documented as far as I know. Use at own  risk.
-The default username is 'Administrator' with an empty password.
-The address can be an ip number or the dns name.
-
-```C#
-AdsSpecial.AddRoute(
-    amsNetIdSource: "10.0.0.120.1.1", 
-    ipTarget: "10.0.0.2", 
-    routeName: "routename", 
-    address: "10.0.0.2",
-    username: "user",
-    passwd: "secret");
-```
-or
-
-```C#
-AdsSpecial.AddRoute(
-    amsNetIdSource: "10.0.0.120.1.1", 
-    ipTarget: "10.0.0.2", 
-    routeName: "routename", 
-    address: "laptop1");
-```
 
 ### Get target description
 

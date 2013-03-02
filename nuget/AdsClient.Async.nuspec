@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>0.4.4</version>
+    <version>0.4.5</version>
     <authors>Roeland Moors</authors>
     <owners />
     <licenseUrl>https://github.com/roelandmoors/adsclient/blob/master/LICENSE</licenseUrl>
@@ -18,9 +18,7 @@ This library can also be used on Windows Phone.</description>
     <tags>Ads</tags>
   </metadata>
   <files>
-    <file src="..\bin\AdsClient.dll" target="lib\net40\AdsClient.dll" />
-    <file src="..\lib\AsyncCtpLibrary.dll" target="lib\net40\AsyncCtpLibrary.dll" />
-    <file src="..\bin\AdsClient.Phone.dll" target="lib\sl4-wp71\AdsClient.Phone.dll" />
-    <file src="..\lib\AsyncCtpLibrary_Phone.dll" target="lib\sl4-wp71\AsyncCtpLibrary_Phone.dll" />
+    <file src="..\bin\AdsClient.dll" target="lib\net45\AdsClient.dll" />
+    <file src="..\bin\AdsClient.Phone.dll" target="lib\windowsphone8\AdsClient.Phone.dll" />
   </files>
 </package>

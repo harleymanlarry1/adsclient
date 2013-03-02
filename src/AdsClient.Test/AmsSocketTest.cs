@@ -49,7 +49,7 @@ namespace Ads.Client.Test
         public async Task<bool> SendAsync(byte[] message)
         {
             Send(message);
-            return await TaskEx.FromResult(true);
+            return await Task.FromResult(true);
         }
     }
 }

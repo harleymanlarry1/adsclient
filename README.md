@@ -40,7 +40,7 @@ Here is the NuGet package: https://nuget.org/packages?q=AdsClient
 
 Mono
 ----
-The version without the async functions works in Mono 2.10
+The version without the async functions works in Mono 2.10  
 The async version works in Mono 3
 
 Mono for android:

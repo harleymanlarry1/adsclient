@@ -1,7 +1,8 @@
-﻿using Ads.Client;
+﻿using Ads.Client.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,59 +12,55 @@ namespace Sample
     {
         static void Main(string[] args)
         {
-            StartTest();
+            var settings = new AdsConnectionSettings();
+
+            //Destination IP
+            settings.IpTarget = "10.0.0.2";
+            if (args.Count() > 0) settings.IpTarget = GetIpFromHostname(args[0]);
+
+            //Source AmsNetId
+            settings.AmsNetIdSource = GetMyIp() + ".1.1";
+            if (args.Count() > 1) settings.AmsNetIdSource = args[1];
+
+            //Target AmsNetId
+            settings.AmsNetIdTarget = "5.1.204.160.1.1";
+            if (args.Count() > 2) settings.AmsNetIdTarget = args[2];
+
+            //Target Ams Port
+            settings.AmsPortTarget = 811; //I'm using the 2nd runtime here
+
+            var sample = new Sample(settings);
+            sample.RunTest();
             Console.ReadKey();
         }
 
-        private static void StartTest()
+        private static string GetMyIp()
         {
-            using (AdsClient client = new AdsClient(
-                amsNetIdSource: "10.0.0.120.1.1",
-                ipTarget: "10.0.0.2",
-                amsNetIdTarget: "5.1.204.160.1.1",
-                amsPortTarget: 811)) //I'm using the 2nd runtime
+            string ip = "";
+            string sHostName = Dns.GetHostName();
+            IPAddress[] ipAddress = Dns.GetHostAddresses(sHostName);
+            for (int i = 0; i < ipAddress.Length; i++)
             {
-                var deviceInfo = client.ReadDeviceInfo();
-                Console.WriteLine("Device info: " + deviceInfo.ToString());
-
-                Console.WriteLine();
-                Console.WriteLine("Available symbols: ");
-                var symbols = client.Special.GetSymbols();
-                foreach (var symbol in symbols)
-                {
-                    Console.WriteLine("  " + symbol.ToString());
-                }
-                Console.WriteLine();
-
-                uint startTestHandle = client.GetSymhandleByName("MAIN.STARTTEST");
-                Console.WriteLine("Handle StartTest: " + startTestHandle.ToString());
-
-                uint testIsRunningHandle = client.GetSymhandleByName("MAIN.TESTISRUNNING");
-                Console.WriteLine("Handle TestIsRunning: " + testIsRunningHandle.ToString());
-
-                uint stopTestHandle = client.GetSymhandleByName("MAIN.STOPTEST");
-                Console.WriteLine("Handle StopTest: " + stopTestHandle.ToString());
-
-                var testIsRunning = client.Read<bool>(testIsRunningHandle);
-                Console.WriteLine("Is test running? " + testIsRunning.ToString());
-
-                client.Write<bool>(startTestHandle, true);
-                Console.WriteLine("Starting test");
-
-                testIsRunning = client.Read<bool>(testIsRunningHandle);
-                Console.WriteLine("Is test running? " + testIsRunning.ToString());
-
-
-                //TODO
-
-
-
-                client.Write<bool>(stopTestHandle, true);
-                Console.WriteLine("Stopping test");
-
-                testIsRunning = client.Read<bool>(testIsRunningHandle);
-                Console.WriteLine("Is test running? " + testIsRunning.ToString());
+                if (ipAddress[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    ip = ipAddress[i].ToString();
             }
+            return ip;
         }
+
+        private static string GetIpFromHostname(string hostname)
+        {
+            Console.Write("Getting ip... ");
+            var ip = "";
+            IPAddress[] addresslist = Dns.GetHostAddresses(hostname);
+
+            foreach (IPAddress theaddress in addresslist)
+            {
+                ip = theaddress.ToString();
+                Console.WriteLine(ip);
+            };
+
+            return ip;
+        }
+
     }
 }

@@ -3,3 +3,4 @@ TestResults
 *.suo
 *.pdb
 *.csproj.user
+temp

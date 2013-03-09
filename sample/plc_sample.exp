@@ -1,0 +1,23 @@
+
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM MAIN
+VAR
+	StartTest: BOOL;
+	StopTest: BOOL;
+	TestIsRunning: BOOL;
+END_VAR
+(* @END_DECLARATION := '0' *)
+IF StartTest THEN
+	StartTest := FALSE;
+	TestIsRunning := TRUE;
+END_IF
+
+IF StopTest THEN
+	StopTest := FALSE;
+	TestIsRunning := FALSE;
+END_IF
+END_PROGRAM

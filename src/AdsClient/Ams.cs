@@ -239,7 +239,7 @@ namespace Ads.Client
             byte[] message = GetAmsMessage(adsCommand);
             var task = Task.Factory.FromAsync<T>(BeginGetResponse<T>, EndGetResponse<T>, invokeId);
             amsSocket.Send(message);
-            if (!task.Wait(CommandTimeOut)) throw new AdsException(String.Format("Running the command took longer than {0} ms!", CommandTimeOut));
+            if (!task.Wait(CommandTimeOut)) throw new AdsException(String.Format("Running the command timed out after {0} ms!", CommandTimeOut));
             if (task.Result.UnknownException != null) throw task.Result.UnknownException;
             return task.Result;
         }

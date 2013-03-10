@@ -200,7 +200,7 @@ namespace AdsTest
           value = await client.ReadAsync<byte>(varHandle1);
           Console.WriteLine("Value after write: " + value.ToString());
 
-          await Task.Delay(5000);  //or TaskEx.Delay() in .Net 4
+          await Task.Delay(5000);  
 
           await client.WriteAsync<byte>(varHandle1, 0);
           Console.WriteLine("I turned something off");

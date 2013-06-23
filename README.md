@@ -97,7 +97,7 @@ using (AdsClient client = new AdsClient(
     uint varHandle = client.GetSymhandleByName(".TestVar");
     client.Write<byte>(varHandle, 0);
     byte value = client.Read<byte>(varHandle);
-    ReleaseSymhandle(varHandle);
+    client.ReleaseSymhandle(varHandle);
 }
 ```
 
@@ -112,7 +112,7 @@ using (AdsClient client = new AdsClient(
     uint varHandle = await client.GetSymhandleByNameAsync(".TestVar");
     await client.WriteAsync<byte>(varHandle, 0);
     byte value = await client.ReadAsync<byte>(varHandle);
-    await ReleaseSymhandleAsync(varHandle);
+    await client.ReleaseSymhandleAsync(varHandle);
 }
 ```
 

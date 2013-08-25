@@ -170,16 +170,16 @@ namespace Ads.Client
         /// Release symhandle
         /// </summary>
         /// <param name="symhandle">The handle returned by GetSymhandleByName</param>
-        public async Task ReleaseSymhandleAsync(uint symhandle)
+        public Task ReleaseSymhandleAsync(uint symhandle)
         {
             activeSymhandles.Remove(symhandle);
             AdsWriteCommand adsCommand = new AdsWriteCommand(0x0000F006, 0x00000000, BitConverter.GetBytes(symhandle));
-            var result = await adsCommand.RunAsync(this.ams);
+            return adsCommand.RunAsync(this.ams);
         }
 
-        public async Task ReleaseSymhandleAsync(IAdsSymhandle adsSymhandle)
+        public Task ReleaseSymhandleAsync(IAdsSymhandle adsSymhandle)
         {
-            await ReleaseSymhandleAsync(adsSymhandle.Symhandle);
+            return ReleaseSymhandleAsync(adsSymhandle.Symhandle);
         }
 
         /// <summary>
@@ -194,9 +194,9 @@ namespace Ads.Client
             return result.Data;
         }
 
-        public async Task<byte[]> ReadBytesAsync(IAdsSymhandle adsSymhandle)
+        public Task<byte[]> ReadBytesAsync(IAdsSymhandle adsSymhandle)
         {
-            return await ReadBytesAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength);
+            return ReadBytesAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength);
         }
 
         public async Task<byte[]> ReadBytesI_Async(uint offset, uint readLength)
@@ -225,9 +225,9 @@ namespace Ads.Client
             return GenericHelper.GetResultFromBytes<T>(value, DefaultStringLength);
         }
 
-        public async Task<T> ReadAsync<T>(IAdsSymhandle adsSymhandle) 
+        public Task<T> ReadAsync<T>(IAdsSymhandle adsSymhandle) 
         {
-            return await ReadAsync<T>(adsSymhandle.Symhandle);
+            return ReadAsync<T>(adsSymhandle.Symhandle);
         }
 
         /// <summary>
@@ -239,14 +239,14 @@ namespace Ads.Client
         /// <param name="cycleTime">The cyclic time in ms. If used with OnChange, then the value is send once after this time in ms</param>
         /// <param name="userData">A custom object that can be used in the callback</param>
         /// <returns>The notification handle</returns>
-        public async Task<uint> AddNotificationAsync(uint varHandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
+        public Task<uint> AddNotificationAsync(uint varHandle, uint length, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
-            return await AddNotificationAsync(varHandle, length, transmissionMode, cycleTime, userData, typeof(byte[]));
+            return AddNotificationAsync(varHandle, length, transmissionMode, cycleTime, userData, typeof(byte[]));
         }
 
-        public async Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
+        public Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
-            return await AddNotificationAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength, transmissionMode, cycleTime, userData);
+            return AddNotificationAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength, transmissionMode, cycleTime, userData);
         }
 
         /// <summary>
@@ -270,9 +270,9 @@ namespace Ads.Client
             return result.NotificationHandle; ;
         }
 
-        public async Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData, Type typeOfValue)
+        public Task<uint> AddNotificationAsync(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData, Type typeOfValue)
         {
-            return await AddNotificationAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength, transmissionMode, cycleTime, userData, typeOfValue);
+            return AddNotificationAsync(adsSymhandle.Symhandle, adsSymhandle.ByteLength, transmissionMode, cycleTime, userData, typeOfValue);
         }
 
         /// <summary>
@@ -284,15 +284,15 @@ namespace Ads.Client
         /// <param name="cycleTime">The cyclic time in ms. If used with OnChange, then the value is send once after this time in ms</param>
         /// <param name="userData">A custom object that can be used in the callback</param>
         /// <returns></returns>
-        public async Task<uint> AddNotificationAsync<T>(uint varHandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) 
+        public Task<uint> AddNotificationAsync<T>(uint varHandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData) 
         {
             uint length = GenericHelper.GetByteLengthFromType<T>(DefaultStringLength);
-            return await AddNotificationAsync(varHandle, length, transmissionMode, cycleTime, userData, typeof(T));
+            return AddNotificationAsync(varHandle, length, transmissionMode, cycleTime, userData, typeof(T));
         }
 
-        public async Task<uint> AddNotificationAsync<T>(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
+        public Task<uint> AddNotificationAsync<T>(IAdsSymhandle adsSymhandle, AdsTransmissionMode transmissionMode, uint cycleTime, object userData)
         {
-            return await AddNotificationAsync<T>(adsSymhandle.Symhandle, transmissionMode, cycleTime, userData);
+            return AddNotificationAsync<T>(adsSymhandle.Symhandle, transmissionMode, cycleTime, userData);
         }
 
         /// <summary>
@@ -300,10 +300,10 @@ namespace Ads.Client
         /// </summary>
         /// <param name="notificationHandle">The handle returned by AddNotification(Async)</param>
         /// <returns></returns>
-        public async Task DeleteNotificationAsync(uint notificationHandle)
+        public Task DeleteNotificationAsync(uint notificationHandle)
         {
             var adsCommand = new AdsDeleteDeviceNotificationCommand(notificationHandle);
-            var result = await adsCommand.RunAsync(this.ams);
+            return adsCommand.RunAsync(this.ams);
         }
 
         /// <summary>
@@ -311,15 +311,15 @@ namespace Ads.Client
         /// </summary>
         /// <param name="varHandle">The handle returned by GetSymhandleByNameAsync</param>
         /// <param name="varValue">The byte[] value to be sent</param>
-        public async Task WriteBytesAsync(uint varHandle, IEnumerable<byte> varValue)
+        public Task WriteBytesAsync(uint varHandle, IEnumerable<byte> varValue)
         {
             AdsWriteCommand adsCommand = new AdsWriteCommand(0x0000F005, varHandle, varValue);
-            var result = await adsCommand.RunAsync(this.ams);
+            return adsCommand.RunAsync(this.ams);
         }
 
-        public async Task WriteBytesAsync(IAdsSymhandle adsSymhandle, IEnumerable<byte> varValue)
+        public Task WriteBytesAsync(IAdsSymhandle adsSymhandle, IEnumerable<byte> varValue)
         {
-            await WriteBytesAsync(adsSymhandle.Symhandle, varValue);
+            return WriteBytesAsync(adsSymhandle.Symhandle, varValue);
         }
 
         /// <summary>
@@ -328,15 +328,15 @@ namespace Ads.Client
         /// <typeparam name="T">A type like byte, ushort, uint depending on the length of the twincat variable</typeparam>
         /// <param name="varHandle">The handle returned by GetSymhandleByNameAsync</param>
         /// <param name="varValue">The value to be sent</param>
-        public async Task WriteAsync<T>(uint varHandle, T varValue) 
+        public Task WriteAsync<T>(uint varHandle, T varValue) 
         {
             IEnumerable<byte> varValueBytes = GenericHelper.GetBytesFromType<T>(varValue, defaultStringLenght);
-            await this.WriteBytesAsync(varHandle, varValueBytes);
+            return this.WriteBytesAsync(varHandle, varValueBytes);
         }
 
-        public async Task WriteAsync<T>(IAdsSymhandle adsSymhandle, T varValue) 
+        public Task WriteAsync<T>(IAdsSymhandle adsSymhandle, T varValue) 
         {
-            await WriteAsync<T>(adsSymhandle.Symhandle, varValue);
+            return WriteAsync<T>(adsSymhandle.Symhandle, varValue);
         }
 
         /// <summary>

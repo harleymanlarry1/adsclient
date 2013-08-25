@@ -167,7 +167,7 @@ namespace Ads.Client
             }
         }
 
-        private async Task<bool> ConnectAsync()
+        private Task<bool> ConnectAsync()
         {
             var tcs = new TaskCompletionSource<bool>(socket);
             #if !SILVERLIGHT
@@ -177,20 +177,20 @@ namespace Ads.Client
             args.RemoteEndPoint = new DnsEndPoint(ipTarget, ipPortTarget);
             args.Completed += (sender, e) => { tcs.TrySetResult(e.SocketError == SocketError.Success); };
             socket.ConnectAsync(args);
-            return await tcs.Task;
+            return tcs.Task;
         }
 
-        public async Task<bool> SendAsync(byte[] message)
+        public Task<bool> SendAsync(byte[] message)
         {
             var tcs = new TaskCompletionSource<bool>(socket);
             SocketAsyncEventArgs args = new SocketAsyncEventArgs();
             args.Completed += (sender, e) => { tcs.TrySetResult(e.SocketError == SocketError.Success); };
             args.SetBuffer(message, 0, message.Length);
             socket.SendAsync(args);
-            return await tcs.Task;
+            return tcs.Task;
         }
 
-        private async Task<bool> ReceiveAsync(byte[] message)
+        private Task<bool> ReceiveAsync(byte[] message)
         {
             var tcs = new TaskCompletionSource<bool>(socket);
             SocketAsyncEventArgs args = new SocketAsyncEventArgs();
@@ -208,7 +208,7 @@ namespace Ads.Client
             {
                 if (!Object.ReferenceEquals(ex.GetType(), typeof(ObjectDisposedException))) throw ex;
             }
-            return await tcs.Task;
+            return tcs.Task;
         }
 
         #endif

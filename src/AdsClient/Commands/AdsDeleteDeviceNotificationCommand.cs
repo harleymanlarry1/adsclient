@@ -53,9 +53,9 @@ namespace Ads.Client.Commands
         }
 
         #if !NO_ASYNC
-        public async Task<AdsDeleteDeviceNotificationCommandResponse> RunAsync(Ams ams)
+        public Task<AdsDeleteDeviceNotificationCommandResponse> RunAsync(Ams ams)
         {
-            return await RunAsync<AdsDeleteDeviceNotificationCommandResponse>(ams);
+            return RunAsync<AdsDeleteDeviceNotificationCommandResponse>(ams);
         }
         #endif
 

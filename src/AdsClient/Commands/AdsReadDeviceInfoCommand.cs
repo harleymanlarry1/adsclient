@@ -41,9 +41,9 @@ namespace Ads.Client.Commands
         }
 
         #if !NO_ASYNC
-        public async Task<AdsReadDeviceInfoCommandResponse> RunAsync(Ams ams)
+        public Task<AdsReadDeviceInfoCommandResponse> RunAsync(Ams ams)
         {
-            return await RunAsync<AdsReadDeviceInfoCommandResponse>(ams);
+            return RunAsync<AdsReadDeviceInfoCommandResponse>(ams);
         }
         #endif
 

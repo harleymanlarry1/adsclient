@@ -56,9 +56,9 @@ namespace Ads.Client.Commands
         }
 
         #if !NO_ASYNC
-        public async Task<AdsWriteReadCommandResponse> RunAsync(Ams ams)
+        public Task<AdsWriteReadCommandResponse> RunAsync(Ams ams)
         {
-            return await RunAsync<AdsWriteReadCommandResponse>(ams);
+            return RunAsync<AdsWriteReadCommandResponse>(ams);
         }
         #endif
 

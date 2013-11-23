@@ -41,7 +41,7 @@ Mono
 The version without the async functions works in Mono 2.10  
 The async version works in Mono 3
 
-Mono for android:
+Xamarin Android: 
 Remember to set internet permissions in the manifest.
 You must also configure a route for your android device.
 

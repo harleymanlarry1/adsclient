@@ -1,24 +1,23 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
-  <metadata>
-    <version>0.4.5</version>
-    <authors>Roeland Moors</authors>
-    <owners />
-    <licenseUrl>https://github.com/roelandmoors/adsclient/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/roelandmoors/adsclient</projectUrl>
-    <id>AdsClient.Async</id>
-    <title>AdsClient (async)</title>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A client implementation of the Beckhoff Twincat ADS protocol. 
+    <metadata>
+        <id>AdsClient.Async</id>
+        <version>0.4.6</version>
+        <title>AdsClient (async)</title>
+        <authors>Roeland Moors</authors>
+        <licenseUrl>https://github.com/roelandmoors/adsclient/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/roelandmoors/adsclient</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A client implementation of the Beckhoff Twincat ADS protocol. 
     
 This library can also be used on Windows Phone.</description>
-    <summary>A client implementation of the Beckhoff Twincat ADS protocol (async)</summary>
-    <releaseNotes />
-    <copyright>Roeland Moors</copyright>
-    <tags>Ads</tags>
-  </metadata>
-  <files>
-    <file src="..\bin\AdsClient.dll" target="lib\net45\AdsClient.dll" />
-    <file src="..\bin\AdsClient.Phone.dll" target="lib\windowsphone8\AdsClient.Phone.dll" />
-  </files>
+        <summary>A client implementation of the Beckhoff Twincat ADS protocol (async)</summary>
+        <releaseNotes>Support for DateTime</releaseNotes>
+        <copyright>Roeland Moors</copyright>
+        <tags>Ads</tags>
+    </metadata>
+    <files>
+        <file src="..\bin\AdsClient.dll" target="lib\net45\AdsClient.dll" />
+        <file src="..\bin\AdsClient.Phone.dll" target="lib\windowsphone8\AdsClient.Phone.dll" />
+    </files>
 </package>

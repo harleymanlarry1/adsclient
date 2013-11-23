@@ -19,6 +19,7 @@
     OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
  */
 
+using Ads.Client.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,13 @@ namespace Ads.Client.Helpers
                 sb.Append(val.ToString());   
             }
             return sb.ToString();
+        }
+
+        public static DateTime ByteArrayToDateTime(byte[] value)
+        {
+            var seconds = BitConverter.ToUInt32(value, 0);
+            var val = new Date(seconds);
+            return val.ToDateTime(null);
         }
     }
 }

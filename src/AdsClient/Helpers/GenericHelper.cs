@@ -116,7 +116,6 @@ namespace Ads.Client.Helpers
                     var totallength = GetByteLengthFromType<T>(defaultStringLength);
                     varValueBytes = new List<byte>((int)totallength);
                     List<AdsAttribute> attributes = GetAdsAttributes(typeof(T), defaultStringLength);
-
                     foreach (var attr in attributes)
                     {
                         var type = attr.GetPropery().PropertyType;
@@ -156,6 +155,7 @@ namespace Ads.Client.Helpers
                 case TypeCode.UInt64: varValueBytes = BitConverter.GetBytes(value.ToUInt64(null)); break;
                 case TypeCode.Single: varValueBytes = BitConverter.GetBytes(value.ToSingle(null)); break;
                 case TypeCode.Double: varValueBytes = BitConverter.GetBytes(value.ToDouble(null)); break;
+                case TypeCode.DateTime: varValueBytes = BitConverter.GetBytes(value.ToInt32(null)); break;
                 case TypeCode.String: varValueBytes = value.ToString().ToAdsBytes(); break;
                 case TypeCode.Object:
                     if (Type.Equals(typeof(Date), type)) varValueBytes = BitConverter.GetBytes(value.ToInt32(null));
@@ -184,9 +184,10 @@ namespace Ads.Client.Helpers
                 case TypeCode.Single: length = 4; break;
                 case TypeCode.Double: length = 8; break;
                 case TypeCode.String: length = defaultStringLength; break;
+                case TypeCode.DateTime: length = 4; break;
                 case TypeCode.Object:
-                    if (Type.Equals(type, typeof(Date))) length = 8;
-                    if (Type.Equals(type, typeof(Time))) length = 8;
+                    if (Type.Equals(type, typeof(Date))) length = 4;
+                    if (Type.Equals(type, typeof(Time))) length = 4;
                     break;
             }
             return length;
@@ -229,6 +230,7 @@ namespace Ads.Client.Helpers
                     }
                     break; 
                 case TypeCode.String: v = ByteArrayHelper.ByteArrayToString(value); break;
+                case TypeCode.DateTime: v = ByteArrayHelper.ByteArrayToDateTime(value); break;
                 case TypeCode.Object:
                     if (Type.Equals(typeof(Date), type)) v = new Date(BitConverter.ToUInt32(value, 0));
                     if (Type.Equals(typeof(Time), type)) v = new Time(BitConverter.ToUInt32(value, 0));
